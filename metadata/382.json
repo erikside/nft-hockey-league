@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0382 - Theo Rune",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/382.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Summit Phantoms"
+    },
+    {
+      "trait_type": "Position",
+      "value": "RW"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Net Guardian"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 76
+    },
+    {
+      "trait_type": "Speed",
+      "value": 82
+    },
+    {
+      "trait_type": "Grit",
+      "value": 83
+    },
+    {
+      "trait_type": "Vision",
+      "value": 89
+    }
+  ]
+}

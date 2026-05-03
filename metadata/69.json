@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0069 - Owen Hale",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/69.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Tidal Blades"
+    },
+    {
+      "trait_type": "Position",
+      "value": "G"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Two-Way"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 83
+    },
+    {
+      "trait_type": "Speed",
+      "value": 93
+    },
+    {
+      "trait_type": "Grit",
+      "value": 84
+    },
+    {
+      "trait_type": "Vision",
+      "value": 94
+    }
+  ]
+}

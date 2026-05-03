@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0270 - Mika Frost",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/270.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Glacier Kings"
+    },
+    {
+      "trait_type": "Position",
+      "value": "C"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Sniper"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 74
+    },
+    {
+      "trait_type": "Speed",
+      "value": 72
+    },
+    {
+      "trait_type": "Grit",
+      "value": 75
+    },
+    {
+      "trait_type": "Vision",
+      "value": 73
+    }
+  ]
+}

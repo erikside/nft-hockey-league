@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0023 - Axel Ives",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/23.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Metro Lynx"
+    },
+    {
+      "trait_type": "Position",
+      "value": "D"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Breakout Ace"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 87
+    },
+    {
+      "trait_type": "Speed",
+      "value": 95
+    },
+    {
+      "trait_type": "Grit",
+      "value": 82
+    },
+    {
+      "trait_type": "Vision",
+      "value": 90
+    }
+  ]
+}

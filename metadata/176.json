@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0176 - Soren North",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/176.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Forge Comets"
+    },
+    {
+      "trait_type": "Position",
+      "value": "LW"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Enforcer"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 90
+    },
+    {
+      "trait_type": "Speed",
+      "value": 80
+    },
+    {
+      "trait_type": "Grit",
+      "value": 85
+    },
+    {
+      "trait_type": "Vision",
+      "value": 75
+    }
+  ]
+}

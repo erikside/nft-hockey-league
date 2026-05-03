@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0111 - Noah Sable",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/111.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Tidal Blades"
+    },
+    {
+      "trait_type": "Position",
+      "value": "LW"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Two-Way"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 95
+    },
+    {
+      "trait_type": "Speed",
+      "value": 81
+    },
+    {
+      "trait_type": "Grit",
+      "value": 96
+    },
+    {
+      "trait_type": "Vision",
+      "value": 82
+    }
+  ]
+}

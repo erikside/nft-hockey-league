@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0114 - Luca Marrow",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/114.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Glacier Kings"
+    },
+    {
+      "trait_type": "Position",
+      "value": "G"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Sniper"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 92
+    },
+    {
+      "trait_type": "Speed",
+      "value": 84
+    },
+    {
+      "trait_type": "Grit",
+      "value": 93
+    },
+    {
+      "trait_type": "Vision",
+      "value": 85
+    }
+  ]
+}

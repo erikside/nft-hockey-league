@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0455 - Eli Cross",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/455.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Metro Lynx"
+    },
+    {
+      "trait_type": "Position",
+      "value": "C"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Breakout Ace"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 81
+    },
+    {
+      "trait_type": "Speed",
+      "value": 89
+    },
+    {
+      "trait_type": "Grit",
+      "value": 76
+    },
+    {
+      "trait_type": "Vision",
+      "value": 84
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "HockeyNFTLeague #0808 - Kai Vale",
+  "description": "A fictional HockeyNFTLeague player card. This project does not use real teams, real players, or real league brands.",
+  "image": "ipfs://REPLACE_WITH_IMAGE_CID/808.png",
+  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Team",
+      "value": "Summit Phantoms"
+    },
+    {
+      "trait_type": "Position",
+      "value": "D"
+    },
+    {
+      "trait_type": "Archetype",
+      "value": "Net Guardian"
+    },
+    {
+      "trait_type": "Shot",
+      "value": 82
+    },
+    {
+      "trait_type": "Speed",
+      "value": 76
+    },
+    {
+      "trait_type": "Grit",
+      "value": 89
+    },
+    {
+      "trait_type": "Vision",
+      "value": 83
+    }
+  ]
+}
