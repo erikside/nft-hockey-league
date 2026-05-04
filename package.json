@@ -1,0 +1,40 @@
+{
+  "name": "hockeynftleague",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "compile": "hardhat compile",
+    "test:contracts": "hardhat test",
+    "generate:metadata": "node scripts/generate-metadata.mjs",
+    "validate:metadata": "node scripts/validate-metadata.mjs",
+    "generate:whitelist": "node scripts/generate-whitelist.mjs",
+    "prepare:launch": "npm run generate:metadata && npm run generate:whitelist && npm run compile",
+    "deploy:amoy": "hardhat ignition deploy ignition/modules/HockeyNFTLeague.ts --network polygonAmoy --deployment-id polygon-amoy",
+    "deploy:v2:amoy": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygonAmoy --deployment-id polygon-amoy-jersey-v2 --parameters ignition/parameters.v2.amoy.json",
+    "deploy:v2:polygon": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygon --deployment-id polygon-mainnet-jersey-v2 --parameters ignition/parameters.v2.polygon.json"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.4",
+    "@openzeppelin/contracts": "^5.6.1",
+    "@openzeppelin/merkle-tree": "^1.0.8",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "dotenv": "^17.4.2",
+    "hardhat": "^3.4.3",
+    "playwright": "^1.59.1",
+    "ts-node": "^10.9.2",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "ethers": "^6.16.0",
+    "lucide-react": "^1.14.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "HockeyNFTLeagueModule": {
+    "baseUri": "ipfs://LOCAL_TEST_METADATA_CID/",
+    "merkleRoot": "0xae6afff7b7c4d883d5efd44afa0b98e80317697e8984b4c2de7c54b49c1c4dd4",
+    "mintPrice": "25000000000000000"
+  }
+}

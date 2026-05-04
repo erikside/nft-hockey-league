@@ -1,0 +1,7 @@
+{
+  "HockeyNFTLeagueModule": {
+    "baseUri": "https://nft-hockey-league.netlify.app/metadata/",
+    "merkleRoot": "0x1a50efcc4e239b73c05cfc032dd29ffa539ee504a9bda85151aad025f7ad4dd5",
+    "mintPrice": "25000000000000000"
+  }
+}

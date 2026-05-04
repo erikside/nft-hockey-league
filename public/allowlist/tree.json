@@ -1,0 +1,17 @@
+{
+  "format": "standard-v1",
+  "leafEncoding": [
+    "address"
+  ],
+  "tree": [
+    "0x1a50efcc4e239b73c05cfc032dd29ffa539ee504a9bda85151aad025f7ad4dd5"
+  ],
+  "values": [
+    {
+      "value": [
+        "0x392DC017bf81b7c351042225aa0d22C1f69EAC4E"
+      ],
+      "treeIndex": 0
+    }
+  ]
+}
