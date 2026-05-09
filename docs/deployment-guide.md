@@ -8,7 +8,7 @@ Required for testnet deployment:
 
 ```bash
 POLYGON_AMOY_RPC_URL="https://rpc-amoy.polygon.technology/"
-POLYGON_AMOY_PRIVATE_KEY="..."
+POLYGON_AMOY_PRIVATE_KEY=""
 ```
 
 Required for frontend contract connection:
