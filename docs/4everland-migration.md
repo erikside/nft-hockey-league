@@ -18,6 +18,12 @@ Gateway check:
 https://ipfs.io/ipfs/QmY6p2a9DDanoipUBFSuTc6HbCGDWLAdyzcU3KET4AkqXt/metadata/1.json
 ```
 
+Temporary frontend gateway:
+
+```text
+https://ipfs.io/ipfs/QmY6p2a9DDanoipUBFSuTc6HbCGDWLAdyzcU3KET4AkqXt/
+```
+
 ## Required Secrets
 
 Add these values to your local `.env`. Do not commit them.
@@ -104,6 +110,13 @@ Remove or replace these old records before validation:
 - `www.nft-league.com` CNAME pointing to `nft-league.com`
 
 If the DNS provider does not allow a CNAME on `@`, use `www.nft-league.com` as the primary site and configure the root domain to forward to `https://www.nft-league.com`, or move DNS to a provider that supports CNAME flattening.
+
+Current DNS uses `rzone.de` nameservers. This is commonly STRATO DNS; STRATO documents CNAME support for subdomains, so the practical setup there is:
+
+- Keep `nft-league.com` as a redirect only.
+- Point `www.nft-league.com` with a CNAME to `69fe8f57a3d3e30007afd003.cname.ddnsweb3.com`.
+- Add the TXT verification record on `nft-league.com`.
+- Use `https://www.nft-league.com` as the production URL, or move DNS to Cloudflare and use CNAME flattening for `nft-league.com`.
 
 The same operation can be repeated manually in 4EVERLAND Hosting or with:
 

@@ -82,6 +82,14 @@ After the custom domain validates, the production frontend URL is:
 https://nft-league.com
 ```
 
+If the DNS provider cannot use a root CNAME, use:
+
+```text
+https://www.nft-league.com
+```
+
+and redirect `nft-league.com` to `www.nft-league.com`.
+
 After the final metadata URL works, update the V2 contract base URI:
 
 ```bash
