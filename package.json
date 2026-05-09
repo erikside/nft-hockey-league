@@ -20,7 +20,8 @@
     "set:base-uri": "node scripts/set-contract-base-uri.mjs",
     "deploy:amoy": "hardhat ignition deploy ignition/modules/HockeyNFTLeague.ts --network polygonAmoy --deployment-id polygon-amoy",
     "deploy:v2:amoy": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygonAmoy --deployment-id polygon-amoy-jersey-v2 --parameters ignition/parameters.v2.amoy.json",
-    "deploy:v2:polygon": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygon --deployment-id polygon-mainnet-jersey-v2 --parameters ignition/parameters.v2.polygon.json"
+    "deploy:v2:polygon": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygon --deployment-id polygon-mainnet-jersey-v2 --parameters ignition/parameters.v2.polygon.json",
+    "rescue:ownership": "node scripts/rescue-eip7702-ownership.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1045.0",
