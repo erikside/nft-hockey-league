@@ -8,6 +8,7 @@ Professional Web3 project for a fictional ice hockey NFT jersey league:
 - Epic, Mythic, and Legendary rarity model
 - Polygon Amoy testnet deployment path
 - 4EVERLAND-ready frontend and metadata migration scripts
+- Cloudflare Pages deployment without a custom domain
 - Bilingual FR/EN content and social launch kit
 
 ## Quick Start
@@ -58,6 +59,22 @@ npm run upload:4everland:metadata
 ```
 
 See `docs/4everland-migration.md` before changing the on-chain base URI.
+
+## Cloudflare Pages
+
+The frontend can also be deployed without a custom domain:
+
+```bash
+npm run deploy:cloudflare
+```
+
+Current Cloudflare Pages URL:
+
+```text
+https://hockey-nft-league.pages.dev
+```
+
+See `docs/cloudflare-pages.md` for the Pages settings and public environment variables.
 
 ## Important Safety Notes
 
