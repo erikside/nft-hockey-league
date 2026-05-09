@@ -76,10 +76,16 @@ npm run validate:metadata
 npm run upload:4everland:metadata
 ```
 
-After `https://your-domain.example/metadata/1.json` works, update the V2 contract base URI:
+After the custom domain validates, the production frontend URL is:
+
+```text
+https://nft-league.com
+```
+
+After the final metadata URL works, update the V2 contract base URI:
 
 ```bash
-npm run set:base-uri -- "https://your-domain.example/metadata/"
+npm run set:base-uri -- "ipfs://REPLACE_WITH_FINAL_METADATA_CID/metadata/"
 ```
 
 See `docs/4everland-migration.md` for required `.env` variables, Hosting token, bucket keys, and domain steps.

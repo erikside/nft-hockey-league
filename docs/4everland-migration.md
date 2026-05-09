@@ -5,7 +5,9 @@ This project can now move away from Netlify and run on 4EVERLAND Hosting, with N
 ## Current 4EVERLAND Deployment
 
 - Project ID: `69fe8f57a3d3e30007afd003`
-- Primary domain: `https://hockey-nft-league-r252.4everland.app`
+- Custom domain: `https://nft-league.com` (added in 4EVERLAND, waiting for DNS validation)
+- WWW domain: `https://www.nft-league.com` (added in 4EVERLAND, waiting for DNS validation)
+- 4EVERLAND fallback domain: `https://hockey-nft-league-r252.4everland.app`
 - Latest IPFS CID: `QmY6p2a9DDanoipUBFSuTc6HbCGDWLAdyzcU3KET4AkqXt`
 - Contract V2 base URI: `ipfs://QmY6p2a9DDanoipUBFSuTc6HbCGDWLAdyzcU3KET4AkqXt/metadata/`
 - Base URI update transaction: `0xd82151929a487cbb877ce6798e2bbbb73b7aa1ded452bbf5a941cf048fc2f2d6`
@@ -22,10 +24,10 @@ Add these values to your local `.env`. Do not commit them.
 
 ```bash
 FOUR_EVERLAND_HOSTING_TOKEN=""
-FOUR_EVERLAND_PROJECT_ID=""
+FOUR_EVERLAND_PROJECT_ID="69fe8f57a3d3e30007afd003"
 FOUR_EVERLAND_PROJECT_NAME="hockey-nft-league"
 FOUR_EVERLAND_PLATFORM="IPFS"
-FOUR_EVERLAND_SITE_URL="https://your-domain.example"
+FOUR_EVERLAND_SITE_URL="https://nft-league.com"
 
 FOUR_EVERLAND_BUCKET_ENDPOINT="https://endpoint.4everland.co"
 FOUR_EVERLAND_BUCKET_REGION="us-east-1"
@@ -86,7 +88,24 @@ This sends a Polygon transaction from the owner wallet in `.env`. Keep Netlify o
 
 ## Domain
 
-Bind the custom domain in 4EVERLAND Hosting or with:
+The domains `nft-league.com` and `www.nft-league.com` have already been added to the 4EVERLAND project. Current 4EVERLAND status is `valid=false` until the DNS records are changed. These records follow the 4EVERLAND DNS setup guide: https://docs.4everland.org/hositng/guides/domain-management/dns-setup-guide
+
+DNS records to set at the domain DNS provider:
+
+| Type | Name | Value | TTL |
+| --- | --- | --- | --- |
+| CNAME | `@` | `69fe8f57a3d3e30007afd003.cname.ddnsweb3.com` | `1h` |
+| CNAME | `www` | `69fe8f57a3d3e30007afd003.cname.ddnsweb3.com` | `1h` |
+| TXT | `@` | `dns.verify=69fe8f57a3d3e30007afd003` | `1h` |
+
+Remove or replace these old records before validation:
+
+- `nft-league.com` A record pointing to `81.169.145.105`
+- `www.nft-league.com` CNAME pointing to `nft-league.com`
+
+If the DNS provider does not allow a CNAME on `@`, use `www.nft-league.com` as the primary site and configure the root domain to forward to `https://www.nft-league.com`, or move DNS to a provider that supports CNAME flattening.
+
+The same operation can be repeated manually in 4EVERLAND Hosting or with:
 
 ```bash
 npx -y @4everland/hosting-cli login
@@ -97,6 +116,6 @@ npx -y @4everland/hosting-cli domain -c
 After DNS propagates, set:
 
 ```bash
-VITE_SITE_URL="https://your-domain.example"
-FOUR_EVERLAND_SITE_URL="https://your-domain.example"
+VITE_SITE_URL="https://nft-league.com"
+FOUR_EVERLAND_SITE_URL="https://nft-league.com"
 ```
