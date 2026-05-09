@@ -7,7 +7,7 @@ Professional Web3 project for a fictional ice hockey NFT jersey league:
 - 1000 unique jersey metadata files
 - Epic, Mythic, and Legendary rarity model
 - Polygon Amoy testnet deployment path
-- Netlify-ready frontend
+- 4EVERLAND-ready frontend and metadata migration scripts
 - Bilingual FR/EN content and social launch kit
 
 ## Quick Start
@@ -41,15 +41,23 @@ Deploy to Polygon Amoy after setting `.env`:
 npm run deploy:amoy
 ```
 
-Copy the deployed address into `VITE_CONTRACT_ADDRESS`, rebuild, then deploy the frontend to Netlify.
+Copy the deployed address into `VITE_CONTRACT_ADDRESS`, rebuild, then deploy the frontend to 4EVERLAND.
 
-## Netlify
+## 4EVERLAND
 
 Build command: `npm run build`
 
 Publish directory: `dist`
 
-The included `netlify.toml` sets those values and includes SPA redirects.
+Use `npm run deploy:4everland` for API deployment, or connect the GitHub repo in the 4EVERLAND dashboard with those build settings.
+
+Metadata can be uploaded to a 4EVERLAND bucket with:
+
+```bash
+npm run upload:4everland:metadata
+```
+
+See `docs/4everland-migration.md` before changing the on-chain base URI.
 
 ## Important Safety Notes
 

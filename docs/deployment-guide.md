@@ -55,27 +55,31 @@ After contract deployment:
 npm run build
 ```
 
-The Netlify settings are:
+The 4EVERLAND/Git hosting settings are:
 
 - Build command: `npm run build`
 - Publish directory: `dist`
 
-## 5. Netlify
+## 5. 4EVERLAND
 
-Preview:
-
-```bash
-npx netlify deploy
-```
-
-Production:
+Deploy through the API script:
 
 ```bash
-npx netlify deploy --prod
+npm run deploy:4everland
 ```
 
-If the CLI is not authenticated, run:
+Upload metadata to the 4EVERLAND bucket:
 
 ```bash
-npx netlify login
+npm run metadata:set-links
+npm run validate:metadata
+npm run upload:4everland:metadata
 ```
+
+After `https://your-domain.example/metadata/1.json` works, update the V2 contract base URI:
+
+```bash
+npm run set:base-uri -- "https://your-domain.example/metadata/"
+```
+
+See `docs/4everland-migration.md` for required `.env` variables, Hosting token, bucket keys, and domain steps.

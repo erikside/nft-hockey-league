@@ -19,19 +19,21 @@
 - Test wallet connect, wrong network, whitelist mint, public mint, sold-out-style errors, and disabled states.
 - Upload jersey images and metadata to IPFS and update `baseUri` before a final deployment.
 
-## Phase 3 - Netlify Preview
+## Phase 3 - 4EVERLAND Preview
 
-- Log in with `npx netlify status`.
-- If needed, run `npx netlify login`.
-- Link or create the Netlify site.
-- Run `npx netlify deploy`.
+- Add `FOUR_EVERLAND_HOSTING_TOKEN` and `FOUR_EVERLAND_PROJECT_ID` to `.env`.
+- Add the 4EVERLAND bucket keys and public metadata domain to `.env`.
+- Run `npm run deploy:4everland`.
+- Run `npm run upload:4everland:metadata`.
 - Test the preview URL on desktop and mobile.
+- Confirm `/metadata/1.json` loads from the new domain.
 
 ## Phase 4 - Production
 
 - Freeze contract parameters: price, reserve, merkle root, base URI.
 - Run one final local test suite.
-- Deploy frontend with `npx netlify deploy --prod`.
+- Deploy frontend with `npm run deploy:4everland`.
+- Update the V2 contract base URI with `npm run set:base-uri -- "https://your-domain.example/metadata/"`.
 - Publish social posts from `docs/social-posts.md`.
 - Monitor wallet support messages and contract activity.
 

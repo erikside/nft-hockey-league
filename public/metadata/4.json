@@ -2,7 +2,7 @@
   "name": "HockeyNFTLeague Jersey #0004 - Luca Marrow",
   "description": "A fictional HockeyNFTLeague player jersey with player details and stats. This project does not use real teams, real players, real uniforms, or real league brands.",
   "image": "ipfs://REPLACE_WITH_IMAGE_CID/4.png",
-  "external_url": "https://REPLACE_WITH_NETLIFY_SITE_URL",
+  "external_url": "https://hockey-nft-league-r252.4everland.app",
   "attributes": [
     {
       "trait_type": "Rarity",

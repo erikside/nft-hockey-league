@@ -1,9 +1,12 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import "dotenv/config";
 
 const root = process.cwd();
 const outDir = path.join(root, "public", "metadata");
 const supply = 1000;
+const siteUrl = stripTrailingSlash(process.env.VITE_SITE_URL ?? process.env.FOUR_EVERLAND_SITE_URL ?? "https://REPLACE_WITH_SITE_URL");
+const imageBaseUri = withTrailingSlash(process.env.NFT_IMAGE_BASE_URI ?? process.env.FOUR_EVERLAND_IMAGE_BASE_URI ?? "ipfs://REPLACE_WITH_IMAGE_CID/");
 const distribution = [
   ["Legendary", 20],
   ["Mythic", 130],
@@ -30,6 +33,14 @@ function stat(base, index, offset) {
   return Math.min(99, base + ((index * offset) % 18));
 }
 
+function stripTrailingSlash(value) {
+  return String(value).replace(/\/+$/, "");
+}
+
+function withTrailingSlash(value) {
+  return `${stripTrailingSlash(value)}/`;
+}
+
 await rm(outDir, { recursive: true, force: true });
 await mkdir(outDir, { recursive: true });
 
@@ -54,8 +65,8 @@ for (let tokenId = 1; tokenId <= supply; tokenId++) {
     name: `HockeyNFTLeague Jersey #${String(tokenId).padStart(4, "0")} - ${name}`,
     description:
       "A fictional HockeyNFTLeague player jersey with player details and stats. This project does not use real teams, real players, real uniforms, or real league brands.",
-    image: `ipfs://REPLACE_WITH_IMAGE_CID/${tokenId}.png`,
-    external_url: "https://REPLACE_WITH_NETLIFY_SITE_URL",
+    image: `${imageBaseUri}${tokenId}.png`,
+    external_url: siteUrl,
     attributes: [
       { trait_type: "Rarity", value: rarity },
       { trait_type: "Team", value: team },

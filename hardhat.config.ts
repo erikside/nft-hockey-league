@@ -4,6 +4,14 @@ import "dotenv/config";
 
 export default defineConfig({
   plugins: [hardhatToolboxMochaEthersPlugin],
+  verify: {
+    etherscan: {
+      apiKey: configVariable("POLYGONSCAN_API_KEY"),
+    },
+    sourcify: {
+      enabled: true,
+    },
+  },
   solidity: {
     profiles: {
       default: {

@@ -21,6 +21,8 @@ Date: 2026-05-03
 - Owner reserve: `50`
 - Merkle root: `0x1a50efcc4e239b73c05cfc032dd29ffa539ee504a9bda85151aad025f7ad4dd5`
 - Base URI: `https://nft-hockey-league.netlify.app/metadata/`
+- Current Base URI: `ipfs://QmY6p2a9DDanoipUBFSuTc6HbCGDWLAdyzcU3KET4AkqXt/metadata/`
+- Current Base URI update tx: `0xd82151929a487cbb877ce6798e2bbbb73b7aa1ded452bbf5a941cf048fc2f2d6`
 
 ## Royalties
 

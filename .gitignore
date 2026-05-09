@@ -14,6 +14,7 @@ dist-ssr
 .env
 .env.*
 !.env.example
+*.zip
 
 # Hardhat
 artifacts
@@ -23,6 +24,8 @@ typechain-types
 types
 ignition/deployments
 .netlify
+.4everland
+.hostingConfig.json
 
 # Editor directories and files
 .vscode/*
