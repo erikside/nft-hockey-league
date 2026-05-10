@@ -4,9 +4,7 @@ The original owner wallet is compromised by an EIP-7702 delegation. Do not send 
 
 ## Compromised Owner
 
-```text
-0x392DC017bf81b7c351042225aa0d22C1f69EAC4E
-```
+The compromised owner address was removed from public project docs after the rescue.
 
 ## New Owner
 

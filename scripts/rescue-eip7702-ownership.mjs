@@ -14,7 +14,6 @@ import {
 import "dotenv/config";
 
 const chainId = 137n;
-const oldOwner = "0x392DC017bf81b7c351042225aa0d22C1f69EAC4E";
 const defaultNewOwner = "0x392DC017bf81b7c351042225aa0d22C1f69EAC4E";
 const defaultTargets = [
   "0x28c9Ad86A58936ee1e34ed08BF21A86c52747920",
@@ -33,6 +32,7 @@ const sponsorKey = process.env.RESCUE_SPONSOR_PRIVATE_KEY;
 const confirm = process.env.RESCUE_CONFIRM === "TRANSFER_OWNERSHIP";
 const provider = new JsonRpcProvider(rpcUrl);
 const oldWallet = new Wallet(oldKey, provider);
+const oldOwner = process.env.RESCUE_OLD_OWNER_ADDRESS || oldWallet.address;
 
 console.log("EIP-7702 ownership rescue");
 console.log(`Old owner: ${oldWallet.address}`);

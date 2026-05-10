@@ -14,7 +14,7 @@ Date: 2026-05-03
 - Address: `0x05f8529F06FdC5c97Decb4975F3F18B82fF63447`
 - Deploy tx: `0x10c62d570ec991377198825f57ab2944a812ac17bb4c8a6ea9165b09fae0de96`
 - Whitelist activation tx: `0x0c58728db7d1402cc8dfa67dcd3f396c28f96fac3627c2cef86a6fee0139ff24`
-- Owner/deployer: `0x392DC017bf81b7c351042225aa0d22C1f69EAC4E`
+- Current owner: `0x392DC017bf81b7c351042225aa0d22C1f69EAC4E`
 - Mint price: `0.025 POL`
 - Max supply: `1000`
 - Paid supply: `950`

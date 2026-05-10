@@ -12,7 +12,7 @@ Date: 2026-05-03
 
 - Contract: HockeyNFTLeague
 - Address: `0x05f8529F06FdC5c97Decb4975F3F18B82fF63447`
-- Owner/deployer: `0x392DC017bf81b7c351042225aa0d22C1f69EAC4E`
+- Current owner: `0x392DC017bf81b7c351042225aa0d22C1f69EAC4E`
 - Mint price: `0.025 MATIC`
 - Max supply: `1000`
 - Paid supply: `950`
@@ -31,7 +31,7 @@ Date: 2026-05-03
 - Public mint: inactive
 - Total minted: `1`
 - First whitelist mint tx: `0x636e071177173b430276c871c478a08f141734ac988591a99cdbbbdc84079961`
-- Token #1 owner: `0x392DC017bf81b7c351042225aa0d22C1f69EAC4E`
+- Token #1 owner: legacy test wallet redacted
 
 ## Next Actions
 
