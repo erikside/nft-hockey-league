@@ -18,6 +18,7 @@
     "deploy:4everland": "npm run build && node scripts/deploy-4everland-hosting.mjs",
     "deploy:cloudflare": "npm run build && npx wrangler pages deploy dist --project-name=hockey-nft-league --branch=main",
     "set:base-uri": "node scripts/set-contract-base-uri.mjs",
+    "set:royalty": "node scripts/set-default-royalty.mjs",
     "deploy:amoy": "hardhat ignition deploy ignition/modules/HockeyNFTLeague.ts --network polygonAmoy --deployment-id polygon-amoy",
     "deploy:v2:amoy": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygonAmoy --deployment-id polygon-amoy-jersey-v2 --parameters ignition/parameters.v2.amoy.json",
     "deploy:v2:polygon": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygon --deployment-id polygon-mainnet-jersey-v2 --parameters ignition/parameters.v2.polygon.json",
