@@ -14,7 +14,7 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
   const t = copy[locale];
   const [phase, setPhase] = useState<MintPhase>("whitelist");
   const [quantity, setQuantity] = useState(1);
-  const { account, contractState, isConfigured, message, status, wrongNetwork } = mintContract;
+  const { account, contractState, isConfigured, message, mobileWalletFallback, status, wrongNetwork } = mintContract;
   const active = phase === "whitelist" ? contractState.whitelistActive : contractState.publicActive;
   const disabled = status === "loading" || !account || wrongNetwork || !active || contractState.remaining === 0;
 
@@ -97,11 +97,12 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
         </button>
       ) : (
         <button className="primary-action" type="button" onClick={mintContract.connectWallet}>
-          {t.connect}
+          {mobileWalletFallback ? t.openMetaMask : t.connect}
         </button>
       )}
 
       {!isConfigured && <p className="notice">{t.demoMode}</p>}
+      {mobileWalletFallback && !account && <p className="notice">{t.mobileWalletHint}</p>}
       {message && <p className={`notice ${status === "error" ? "is-error" : "is-success"}`}>{message}</p>}
     </section>
   );

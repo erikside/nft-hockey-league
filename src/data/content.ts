@@ -10,6 +10,8 @@ export const copy = {
   fr: {
     nav: ["Mint", "Ligue", "Collection", "Roadmap", "FAQ"],
     connect: "Connecter",
+    openMetaMask: "Ouvrir MetaMask",
+    mobileWalletHint: "Sur mobile, ouvre le site dans le navigateur MetaMask pour connecter ton wallet.",
     connected: "Wallet connecté",
     heroTitle: "Hockey NFT League",
     heroText:
@@ -44,6 +46,8 @@ export const copy = {
   en: {
     nav: ["Mint", "League", "Collection", "Roadmap", "FAQ"],
     connect: "Connect",
+    openMetaMask: "Open MetaMask",
+    mobileWalletHint: "On mobile, open the site in the MetaMask browser to connect your wallet.",
     connected: "Wallet connected",
     heroTitle: "Hockey NFT League",
     heroText:

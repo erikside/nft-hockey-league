@@ -1,4 +1,4 @@
-import { BrowserProvider, Contract, JsonRpcProvider, formatEther, parseUnits } from "ethers";
+import { BrowserProvider, Contract, JsonRpcProvider, formatEther, parseUnits, type Eip1193Provider } from "ethers";
 import { hockeyNftLeagueAbi } from "../contracts/hockeyNftLeagueAbi";
 import type { ContractState, MintPhase } from "../types";
 
@@ -33,12 +33,43 @@ export function formatMintPrice(value: bigint): string {
   return `${formatEther(value)} POL`;
 }
 
-export async function getBrowserProvider(): Promise<BrowserProvider> {
-  if (!window.ethereum) {
+export function hasInjectedWallet(): boolean {
+  return typeof window !== "undefined" && Boolean(window.ethereum);
+}
+
+export function isMobileDevice(): boolean {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
+  const userAgent = navigator.userAgent || "";
+  const isTouchTablet = navigator.maxTouchPoints > 1 && /Macintosh/i.test(userAgent);
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) || isTouchTablet;
+}
+
+export function getMetaMaskMobileDeepLink(): string {
+  if (typeof window === "undefined") {
+    return "https://metamask.app.link/dapp/hockey-nft-league.pages.dev";
+  }
+
+  const dappPath = `${window.location.host}${window.location.pathname}${window.location.search}${window.location.hash}`;
+  return `https://metamask.app.link/dapp/${dappPath}`;
+}
+
+export function openMetaMaskMobile(): void {
+  window.location.href = getMetaMaskMobileDeepLink();
+}
+
+function getInjectedEthereum(): EthereumProvider {
+  if (typeof window === "undefined" || !window.ethereum) {
     throw new Error("No injected wallet found.");
   }
 
-  return new BrowserProvider(window.ethereum);
+  return window.ethereum;
+}
+
+export async function getBrowserProvider(): Promise<BrowserProvider> {
+  return new BrowserProvider(getInjectedEthereum() as Eip1193Provider);
 }
 
 export function getReadProvider(): JsonRpcProvider {
@@ -74,11 +105,11 @@ export async function getAmoyMintGasOverrides(provider: BrowserProvider) {
 }
 
 export async function getCurrentChainId(): Promise<number | null> {
-  if (!window.ethereum) {
+  if (!hasInjectedWallet()) {
     return null;
   }
 
-  const value = await window.ethereum.request({ method: "eth_chainId" });
+  const value = await getInjectedEthereum().request({ method: "eth_chainId" });
   if (typeof value !== "string") {
     return null;
   }
@@ -87,14 +118,11 @@ export async function getCurrentChainId(): Promise<number | null> {
 }
 
 export async function switchToTargetNetwork(): Promise<void> {
-  if (!window.ethereum) {
-    throw new Error("No injected wallet found.");
-  }
-
+  const ethereum = getInjectedEthereum();
   const chainIdHex = `0x${targetChainId.toString(16)}`;
 
   try {
-    await window.ethereum.request({
+    await ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{ chainId: chainIdHex }],
     });
@@ -104,7 +132,7 @@ export async function switchToTargetNetwork(): Promise<void> {
       throw error;
     }
 
-    await window.ethereum.request({
+    await ethereum.request({
       method: "wallet_addEthereumChain",
       params: [
         {

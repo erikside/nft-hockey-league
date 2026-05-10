@@ -7,8 +7,11 @@ import {
   getContract,
   getCurrentChainId,
   getReadProvider,
+  hasInjectedWallet,
   hasConfiguredContract,
+  isMobileDevice,
   loadWhitelistProof,
+  openMetaMaskMobile,
   switchToTargetNetwork,
   targetChainId,
 } from "../lib/web3";
@@ -21,6 +24,7 @@ export function useMintContract() {
   const [contractState, setContractState] = useState<ContractState>(demoContractState);
   const [status, setStatus] = useState<MintStatus>("idle");
   const [message, setMessage] = useState("");
+  const [mobileWalletFallback, setMobileWalletFallback] = useState(false);
 
   const isConfigured = hasConfiguredContract();
   const wrongNetwork = chainId !== null && chainId !== targetChainId;
@@ -68,6 +72,18 @@ export function useMintContract() {
     setMessage("");
 
     try {
+      if (!hasInjectedWallet()) {
+        if (isMobileDevice()) {
+          setMobileWalletFallback(true);
+          setStatus("idle");
+          openMetaMaskMobile();
+          return;
+        }
+
+        throw new Error("No injected wallet found.");
+      }
+
+      setMobileWalletFallback(false);
       const provider = await getBrowserProvider();
       const accounts = (await provider.send("eth_requestAccounts", [])) as string[];
       const selectedAccount = accounts[0] ?? "";
@@ -143,6 +159,7 @@ export function useMintContract() {
   }, []);
 
   useEffect(() => {
+    setMobileWalletFallback(isMobileDevice() && !hasInjectedWallet());
     getCurrentChainId().then(setChainId).catch(() => setChainId(null));
   }, []);
 
@@ -159,6 +176,7 @@ export function useMintContract() {
       isConfigured,
       message,
       mint,
+      mobileWalletFallback,
       refreshContractState,
       status,
       switchNetwork,
@@ -172,6 +190,7 @@ export function useMintContract() {
       isConfigured,
       message,
       mint,
+      mobileWalletFallback,
       refreshContractState,
       status,
       switchNetwork,
