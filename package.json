@@ -20,6 +20,7 @@
     "set:base-uri": "node scripts/set-contract-base-uri.mjs",
     "set:royalty": "node scripts/set-default-royalty.mjs",
     "set:whitelist-root": "node scripts/set-whitelist-root.mjs",
+    "safe:transfer-admin": "node scripts/transfer-admin-to-safe.mjs",
     "deploy:amoy": "hardhat ignition deploy ignition/modules/HockeyNFTLeague.ts --network polygonAmoy --deployment-id polygon-amoy",
     "deploy:v2:amoy": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygonAmoy --deployment-id polygon-amoy-jersey-v2 --parameters ignition/parameters.v2.amoy.json",
     "deploy:v2:polygon": "hardhat ignition deploy ignition/modules/HockeyNFTLeagueV2.ts --network polygon --deployment-id polygon-mainnet-jersey-v2 --parameters ignition/parameters.v2.polygon.json",

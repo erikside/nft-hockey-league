@@ -14,7 +14,8 @@ Date: 2026-05-03
 - Address: `0x28c9Ad86A58936ee1e34ed08BF21A86c52747920`
 - Deploy tx: `0xeb35d68cb0c0745f141332de8aed16d6f5db8c04d8b6440a6540b252af00896f`
 - Whitelist activation tx: `0x1326020d3a606cf626489f96dc01217c48905a97efb4a24578df79fc73168794`
-- Current owner: `0x392DC017bf81b7c351042225aa0d22C1f69EAC4E`
+- Current owner: `0x49E2e4C3257ac88d867DdFD875FD2B0CD4067F3E`
+- Ownership transfer tx: `0xd44359ad6d8ba2afc070ff63e1e4737927a5d5252abe7f764c37f66f44129779`
 - Mint price: `0.025 POL`
 - Max supply: `1000`
 - Paid supply: `950`
@@ -29,14 +30,16 @@ Date: 2026-05-03
 
 - Standard: ERC-2981
 - Interface ID: `0x2a55205a`
-- Receiver: `0x392DC017bf81b7c351042225aa0d22C1f69EAC4E`
+- Receiver: `0x49E2e4C3257ac88d867DdFD875FD2B0CD4067F3E`
 - Fee: `500` basis points (`5%`)
 - `royaltyInfo(1, 1 POL)` returns `0.05 POL`
-- Royalty receiver update tx: `0x4a7e8f73263196a9c78dad1522da3aac86739dfe8dbe8fe0dab6674d6e451938`
+- Royalty receiver update tx: `0x1a76d0e517c7d230a7d9044f7fb99abebf24136e109d1aab932f36979bf74f6c`
 
 ## V1 Status
 
 - V1 address: `0x05f8529F06FdC5c97Decb4975F3F18B82fF63447`
+- V1 current owner: `0x49E2e4C3257ac88d867DdFD875FD2B0CD4067F3E`
+- V1 ownership transfer tx: `0x72bdb1ea85435b2b215cdd7811954171a07b4cf503b122ef8fdf3c7ab18d8b62`
 - V1 close phases tx: `0x4e2ae0d7d9093969934b52b4081968ef98b2ef855eb122f773878ea3bdbf9208`
 - V1 whitelist mint: inactive
 - V1 public mint: inactive

@@ -9,7 +9,7 @@ The compromised owner address was removed from public project docs after the res
 ## New Owner
 
 ```text
-0x392DC017bf81b7c351042225aa0d22C1f69EAC4E
+0x49E2e4C3257ac88d867DdFD875FD2B0CD4067F3E
 ```
 
 ## Contracts To Rescue
@@ -40,6 +40,24 @@ Verified final state:
 Old owner code: 0x
 HockeyNFTLeagueV2 owner: 0x392DC017bf81b7c351042225aa0d22C1f69EAC4E
 HockeyNFTLeague owner:   0x392DC017bf81b7c351042225aa0d22C1f69EAC4E
+```
+
+## Safe Migration Result
+
+Completed on Polygon after configuring the Safe as a 2-of-2 multisig.
+
+```text
+Safe owner:
+0x49E2e4C3257ac88d867DdFD875FD2B0CD4067F3E
+
+HockeyNFTLeagueV2 ownership transfer:
+0xd44359ad6d8ba2afc070ff63e1e4737927a5d5252abe7f764c37f66f44129779
+
+HockeyNFTLeagueV2 royalty receiver update:
+0x1a76d0e517c7d230a7d9044f7fb99abebf24136e109d1aab932f36979bf74f6c
+
+HockeyNFTLeague ownership transfer:
+0x72bdb1ea85435b2b215cdd7811954171a07b4cf503b122ef8fdf3c7ab18d8b62
 ```
 
 ## Local Execution
