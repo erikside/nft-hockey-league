@@ -3,11 +3,11 @@ import path from "node:path";
 import "dotenv/config";
 
 const metadataDir = path.join(process.cwd(), "public", "metadata");
-const siteUrl = process.argv[2] ?? process.env.VITE_SITE_URL ?? process.env.FOUR_EVERLAND_SITE_URL;
-const imageBaseUri = process.argv[3] ?? process.env.NFT_IMAGE_BASE_URI ?? process.env.FOUR_EVERLAND_IMAGE_BASE_URI;
+const siteUrl = process.argv[2] ?? process.env.VITE_SITE_URL;
+const imageBaseUri = process.argv[3] ?? process.env.NFT_IMAGE_BASE_URI;
 
 if (!siteUrl && !imageBaseUri) {
-  throw new Error("Set VITE_SITE_URL/FOUR_EVERLAND_SITE_URL or NFT_IMAGE_BASE_URI/FOUR_EVERLAND_IMAGE_BASE_URI.");
+  throw new Error("Set VITE_SITE_URL or NFT_IMAGE_BASE_URI.");
 }
 
 const files = (await readdir(metadataDir)).filter((file) => /^\d+\.json$/.test(file));
@@ -23,7 +23,8 @@ for (const file of files) {
   }
 
   if (imageBaseUri) {
-    metadata.image = `${withTrailingSlash(imageBaseUri)}${tokenId}.png`;
+    const team = metadata.attributes?.find((item) => item.trait_type === "Team")?.value;
+    metadata.image = `${withTrailingSlash(imageBaseUri)}${imageFileForTeam(team, tokenId)}`;
   }
 
   await writeFile(filePath, `${JSON.stringify(metadata, null, 2)}\n`);
@@ -38,4 +39,17 @@ function stripTrailingSlash(value) {
 
 function withTrailingSlash(value) {
   return `${stripTrailingSlash(value)}/`;
+}
+
+function imageFileForTeam(team, tokenId) {
+  const files = {
+    "Glacier Kings": "glacier-kings.png",
+    "Aurora Wolves": "aurora-wolves.jpg",
+    "Forge Comets": "forge-comets.png",
+    "Tidal Blades": "tidal-blades.png",
+    "Summit Phantoms": "summit-phantoms.png",
+    "Metro Lynx": "metro-lynx.png",
+  };
+
+  return files[team] ?? `${tokenId}.png`;
 }

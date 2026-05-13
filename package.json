@@ -14,8 +14,6 @@
     "validate:metadata": "node scripts/validate-metadata.mjs",
     "generate:whitelist": "node scripts/generate-whitelist.mjs",
     "prepare:launch": "npm run generate:metadata && npm run generate:whitelist && npm run compile",
-    "upload:4everland:metadata": "node scripts/upload-4everland-bucket.mjs public/metadata metadata",
-    "deploy:4everland": "npm run build && node scripts/deploy-4everland-hosting.mjs",
     "deploy:cloudflare": "npm run build && npx wrangler pages deploy dist --project-name=hockey-nft-league --branch=main",
     "set:base-uri": "node scripts/set-contract-base-uri.mjs",
     "set:royalty": "node scripts/set-default-royalty.mjs",
@@ -27,14 +25,12 @@
     "rescue:ownership": "node scripts/rescue-eip7702-ownership.mjs"
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "^3.1045.0",
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.4",
     "@openzeppelin/contracts": "^5.6.1",
     "@openzeppelin/merkle-tree": "^1.0.8",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "archiver": "^8.0.0",
     "dotenv": "^17.4.2",
     "hardhat": "^3.4.3",
     "playwright": "^1.59.1",

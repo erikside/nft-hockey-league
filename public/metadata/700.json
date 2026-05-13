@@ -1,8 +1,8 @@
 {
   "name": "HockeyNFTLeague Jersey #0700 - Mika Frost",
   "description": "A fictional HockeyNFTLeague player jersey with player details and stats. This project does not use real teams, real players, real uniforms, or real league brands.",
-  "image": "ipfs://REPLACE_WITH_IMAGE_CID/700.png",
-  "external_url": "https://hockey-nft-league-r252.4everland.app",
+  "image": "https://hockey-nft-league.pages.dev/nft-assets/jerseys/tidal-blades.png",
+  "external_url": "https://nft-league.com",
   "attributes": [
     {
       "trait_type": "Rarity",
@@ -10,7 +10,7 @@
     },
     {
       "trait_type": "Team",
-      "value": "Summit Phantoms"
+      "value": "Tidal Blades"
     },
     {
       "trait_type": "Position",

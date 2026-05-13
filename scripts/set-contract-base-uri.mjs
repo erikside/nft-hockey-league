@@ -4,10 +4,10 @@ import "dotenv/config";
 const rpcUrl = requireEnv("POLYGON_RPC_URL");
 const privateKey = requireEnv("POLYGON_PRIVATE_KEY");
 const contractAddress = process.env.VITE_CONTRACT_ADDRESS ?? "0x28c9Ad86A58936ee1e34ed08BF21A86c52747920";
-const nextBaseUri = withTrailingSlash(process.argv[2] ?? process.env.NEW_BASE_URI ?? process.env.FOUR_EVERLAND_METADATA_BASE_URI);
+const nextBaseUri = withTrailingSlash(process.argv[2] ?? process.env.NEW_BASE_URI);
 
 if (!nextBaseUri || (!nextBaseUri.startsWith("https://") && !nextBaseUri.startsWith("ipfs://"))) {
-  throw new Error("Set NEW_BASE_URI or FOUR_EVERLAND_METADATA_BASE_URI to an https:// or ipfs:// URI.");
+  throw new Error("Set NEW_BASE_URI to an https:// or ipfs:// URI.");
 }
 
 const provider = new ethers.JsonRpcProvider(rpcUrl);

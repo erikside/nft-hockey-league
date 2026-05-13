@@ -1,6 +1,6 @@
 # Social Posts - X And Facebook
 
-All posts avoid financial promises. Current launch link: https://hockey-nft-league.pages.dev. Replace with https://nft-league.com after the custom domain is active.
+All posts avoid financial promises. Current launch link: https://hockey-nft-league.pages.dev.
 
 ## X Posts - FR
 
@@ -33,7 +33,7 @@ All posts avoid financial promises. Current launch link: https://hockey-nft-leag
 1. HockeyNFTLeague présente une ligue de hockey entièrement fictive, construite pour une collection NFT de 1000 jerseys ERC-721. La collection inclut trois raretés: Epic, Mythic et Legendary. La whitelist ouvrira avant le mint public. https://hockey-nft-league.pages.dev
 2. Notre règle principale: créer un univers original. Les équipes, villes, joueurs, arénas et jerseys sont inventés pour éviter toute confusion avec des ligues, clubs, athlètes ou uniformes réels. HockeyNFTLeague est une collection de culture hockey, pas une reproduction du monde réel. https://hockey-nft-league.pages.dev
 3. La collection compte 850 Epic, 130 Mythic et 20 Legendary. Chaque metadata inclut numéro de jersey, position, équipe fictive, archétype et statistiques. Le but est de créer une base solide pour la Saison 1 communautaire. https://hockey-nft-league.pages.dev
-4. Avant le lancement final, le contrat passera par testnet Polygon Amoy, tests de mint, validation whitelist et preview 4EVERLAND. La communauté pourra suivre chaque étape avant le mint public. https://hockey-nft-league.pages.dev
+4. Avant le lancement final, le contrat passera par testnet Polygon Amoy, tests de mint, validation whitelist et preview Cloudflare Pages. La communauté pourra suivre chaque étape avant le mint public. https://hockey-nft-league.pages.dev
 5. Important: HockeyNFTLeague ne promet aucun rendement financier. Le projet est présenté comme une collection numérique de jerseys fictifs et une expérience communautaire autour d'un univers hockey original. https://hockey-nft-league.pages.dev
 
 ## Facebook Posts - EN
@@ -41,5 +41,5 @@ All posts avoid financial promises. Current launch link: https://hockey-nft-leag
 1. HockeyNFTLeague introduces a fully fictional hockey league built around a 1000-jersey ERC-721 NFT collection. The collection includes three rarities: Epic, Mythic, and Legendary. Whitelist opens before public mint. https://hockey-nft-league.pages.dev
 2. Our core rule: build an original universe. Teams, cities, players, arenas, and jerseys are invented to avoid confusion with real leagues, clubs, athletes, or uniforms. HockeyNFTLeague is hockey culture, not a copy of the real world. https://hockey-nft-league.pages.dev
 3. The collection includes 850 Epic, 130 Mythic, and 20 Legendary jerseys. Each metadata file includes jersey number, position, fictional team, archetype, and player stats. The goal is to create a strong base for community Season 1. https://hockey-nft-league.pages.dev
-4. Before final launch, the contract goes through Polygon Amoy testnet, mint tests, whitelist validation, and a 4EVERLAND preview. The community can follow each step before public mint. https://hockey-nft-league.pages.dev
+4. Before final launch, the contract goes through Polygon Amoy testnet, mint tests, whitelist validation, and a Cloudflare Pages preview. The community can follow each step before public mint. https://hockey-nft-league.pages.dev
 5. Important: HockeyNFTLeague does not promise financial returns. The project is a digital jersey collection and community experience around an original hockey universe. https://hockey-nft-league.pages.dev

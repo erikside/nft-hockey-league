@@ -7,7 +7,7 @@
 - Generate 1000 jersey metadata files.
 - Generate whitelist merkle root and proofs.
 - Run local tests and metadata validation.
-- Deploy 4EVERLAND preview.
+- Deploy Cloudflare Pages preview.
 
 ## V2 - Testnet Launch
 
@@ -21,7 +21,7 @@
 
 - Upload final jersey images and metadata to IPFS.
 - Deploy contract to Polygon mainnet.
-- Deploy frontend to 4EVERLAND production.
+- Deploy frontend to Cloudflare Pages production.
 - Publish X/Facebook campaign.
 - Monitor support and community feedback.
 

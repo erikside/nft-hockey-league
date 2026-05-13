@@ -24,7 +24,6 @@ typechain-types
 types
 ignition/deployments
 .netlify
-.4everland
 .hostingConfig.json
 
 # Editor directories and files

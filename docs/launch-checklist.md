@@ -17,23 +17,20 @@
 - Copy the contract address into `VITE_CONTRACT_ADDRESS`.
 - Rebuild the frontend.
 - Test wallet connect, wrong network, whitelist mint, public mint, sold-out-style errors, and disabled states.
-- Upload jersey images and metadata to IPFS and update `baseUri` before a final deployment.
+- Confirm jersey images and metadata load from Cloudflare Pages before the final base URI update.
 
-## Phase 3 - 4EVERLAND Preview
+## Phase 3 - Cloudflare Pages Preview
 
-- Add `FOUR_EVERLAND_HOSTING_TOKEN` and `FOUR_EVERLAND_PROJECT_ID` to `.env`.
-- Add the 4EVERLAND bucket keys and public metadata domain to `.env`.
-- Run `npm run deploy:4everland`.
-- Run `npm run upload:4everland:metadata`.
+- Run `npm run deploy:cloudflare`.
 - Test the preview URL on desktop and mobile.
-- Confirm `/metadata/1.json` loads from the new domain.
+- Confirm `/metadata/1.json` and each jersey image loads from Cloudflare Pages.
 
 ## Phase 4 - Production
 
 - Freeze contract parameters: price, reserve, merkle root, base URI.
 - Run one final local test suite.
-- Deploy frontend with `npm run deploy:4everland`.
-- Update the V2 contract base URI with `npm run set:base-uri -- "https://your-domain.example/metadata/"`.
+- Deploy frontend with `npm run deploy:cloudflare`.
+- Update the V2 contract base URI through the Safe to `https://hockey-nft-league.pages.dev/metadata/`.
 - Publish social posts from `docs/social-posts.md`.
 - Monitor wallet support messages and contract activity.
 

@@ -55,45 +55,29 @@ After contract deployment:
 npm run build
 ```
 
-The 4EVERLAND/Git hosting settings are:
+The Cloudflare Pages hosting settings are:
 
 - Build command: `npm run build`
 - Publish directory: `dist`
 
-## 5. 4EVERLAND
+## 5. Cloudflare Pages
 
-Deploy through the API script:
-
-```bash
-npm run deploy:4everland
-```
-
-Upload metadata to the 4EVERLAND bucket:
+Deploy through Wrangler:
 
 ```bash
-npm run metadata:set-links
-npm run validate:metadata
-npm run upload:4everland:metadata
+npm run deploy:cloudflare
 ```
 
-After the custom domain validates, the production frontend URL is:
+Current production frontend and metadata URL:
 
 ```text
-https://nft-league.com
+https://hockey-nft-league.pages.dev
 ```
 
-If the DNS provider cannot use a root CNAME, use:
+After the final metadata URL works, update the V2 contract base URI through the Safe:
 
 ```text
-https://www.nft-league.com
+https://hockey-nft-league.pages.dev/metadata/
 ```
 
-and redirect `nft-league.com` to `www.nft-league.com`.
-
-After the final metadata URL works, update the V2 contract base URI:
-
-```bash
-npm run set:base-uri -- "ipfs://REPLACE_WITH_FINAL_METADATA_CID/metadata/"
-```
-
-See `docs/4everland-migration.md` for required `.env` variables, Hosting token, bucket keys, and domain steps.
+The V2 contract is owned by the Safe, so owner-only actions require Safe confirmations and execution.

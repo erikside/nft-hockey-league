@@ -9,6 +9,14 @@ const expectedCounts = {
 };
 const bannedTerms = ["NHL", "Canadiens", "Maple Leafs", "Bruins", "Rangers", "Oilers"];
 const requiredTraits = ["Rarity", "Team", "Position", "Archetype", "Jersey Number", "Shot", "Speed", "Grit", "Vision"];
+const expectedTeamImages = {
+  "Glacier Kings": "glacier-kings.png",
+  "Aurora Wolves": "aurora-wolves.jpg",
+  "Forge Comets": "forge-comets.png",
+  "Tidal Blades": "tidal-blades.png",
+  "Summit Phantoms": "summit-phantoms.png",
+  "Metro Lynx": "metro-lynx.png",
+};
 
 const files = (await readdir(metadataDir)).filter((file) => /^\d+\.json$/.test(file));
 if (files.length !== 1000) {
@@ -23,6 +31,7 @@ for (const file of files) {
   const text = JSON.stringify(metadata);
   const traitNames = metadata.attributes?.map((item) => item.trait_type) ?? [];
   const rarity = metadata.attributes?.find((item) => item.trait_type === "Rarity")?.value;
+  const team = metadata.attributes?.find((item) => item.trait_type === "Team")?.value;
 
   if (!metadata.name || !metadata.description || !metadata.image || !Array.isArray(metadata.attributes)) {
     throw new Error(`${file} is missing required ERC-721 metadata fields`);
@@ -40,6 +49,12 @@ for (const file of files) {
   }
   if (!Object.hasOwn(counts, rarity)) {
     throw new Error(`${file} has invalid rarity: ${rarity}`);
+  }
+  if (!Object.hasOwn(expectedTeamImages, team)) {
+    throw new Error(`${file} has invalid team: ${team}`);
+  }
+  if (!metadata.image.endsWith(expectedTeamImages[team])) {
+    throw new Error(`${file} image does not match team ${team}: ${metadata.image}`);
   }
   if (bannedTerms.some((term) => text.toLowerCase().includes(term.toLowerCase()))) {
     throw new Error(`${file} contains a banned real-world hockey term`);
