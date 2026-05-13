@@ -1,0 +1,9 @@
+/metadata/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+  X-Content-Type-Options: nosniff
+
+/nft-assets/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff

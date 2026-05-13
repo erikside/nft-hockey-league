@@ -1,6 +1,6 @@
 import { BrowserProvider, Contract, JsonRpcProvider, formatEther, parseUnits, type Eip1193Provider } from "ethers";
 import { hockeyNftLeagueAbi } from "../contracts/hockeyNftLeagueAbi";
-import type { ContractState, MintPhase } from "../types";
+import type { ContractState, MintPhase, WalletOption } from "../types";
 
 const polygonChainId = 137;
 
@@ -10,6 +10,8 @@ export const targetChainName = import.meta.env.VITE_CHAIN_NAME ?? "Polygon";
 export const blockExplorerUrl = import.meta.env.VITE_BLOCK_EXPLORER_URL ?? "https://polygonscan.com";
 export const fallbackRpcUrl =
   import.meta.env.VITE_RPC_URL ?? "https://polygon-bor-rpc.publicnode.com";
+
+let selectedWalletProvider: EthereumProvider | null = null;
 
 export const demoContractState: ContractState = {
   maxSupply: 1000,
@@ -37,6 +39,10 @@ export function hasInjectedWallet(): boolean {
   return typeof window !== "undefined" && Boolean(window.ethereum);
 }
 
+export function setSelectedWalletProvider(provider: EthereumProvider): void {
+  selectedWalletProvider = provider;
+}
+
 export function isMobileDevice(): boolean {
   if (typeof navigator === "undefined") {
     return false;
@@ -60,7 +66,15 @@ export function openMetaMaskMobile(): void {
   window.location.href = getMetaMaskMobileDeepLink();
 }
 
-function getInjectedEthereum(): EthereumProvider {
+function getInjectedEthereum(provider?: EthereumProvider): EthereumProvider {
+  if (provider) {
+    return provider;
+  }
+
+  if (selectedWalletProvider) {
+    return selectedWalletProvider;
+  }
+
   if (typeof window === "undefined" || !window.ethereum) {
     throw new Error("No injected wallet found.");
   }
@@ -68,8 +82,85 @@ function getInjectedEthereum(): EthereumProvider {
   return window.ethereum;
 }
 
-export async function getBrowserProvider(): Promise<BrowserProvider> {
-  return new BrowserProvider(getInjectedEthereum() as Eip1193Provider);
+export async function getBrowserProvider(provider?: EthereumProvider): Promise<BrowserProvider> {
+  return new BrowserProvider(getInjectedEthereum(provider) as Eip1193Provider);
+}
+
+export async function discoverWalletOptions(): Promise<WalletOption[]> {
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  const options = new Map<EthereumProvider, WalletOption>();
+  const addOption = (provider: EthereumProvider, option: Omit<WalletOption, "provider">) => {
+    if (!options.has(provider)) {
+      options.set(provider, { ...option, provider });
+    }
+  };
+
+  const onAnnouncement = (event: Eip6963AnnounceProviderEvent) => {
+    const { info, provider } = event.detail;
+    addOption(provider, {
+      id: info.uuid || info.rdns || info.name,
+      name: info.name || "Wallet",
+      icon: info.icon,
+      rdns: info.rdns,
+    });
+  };
+
+  window.addEventListener("eip6963:announceProvider", onAnnouncement);
+  window.dispatchEvent(new Event("eip6963:requestProvider"));
+  await new Promise((resolve) => window.setTimeout(resolve, 220));
+  window.removeEventListener("eip6963:announceProvider", onAnnouncement);
+
+  const legacy = window.ethereum;
+  if (legacy?.providers?.length) {
+    for (const provider of legacy.providers) {
+      addOption(provider, {
+        id: legacyWalletId(provider),
+        name: legacyWalletName(provider),
+      });
+    }
+  } else if (legacy) {
+    addOption(legacy, {
+      id: legacyWalletId(legacy),
+      name: legacyWalletName(legacy),
+    });
+  }
+
+  return Array.from(options.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function legacyWalletId(provider: EthereumProvider): string {
+  if (provider.isCoinbaseWallet) {
+    return "coinbase";
+  }
+  if (provider.isRabby) {
+    return "rabby";
+  }
+  if (provider.isTrust) {
+    return "trust";
+  }
+  if (provider.isMetaMask) {
+    return "metamask";
+  }
+  return "browser-wallet";
+}
+
+function legacyWalletName(provider: EthereumProvider): string {
+  if (provider.isCoinbaseWallet) {
+    return "Coinbase Wallet";
+  }
+  if (provider.isRabby) {
+    return "Rabby";
+  }
+  if (provider.isTrust) {
+    return "Trust Wallet";
+  }
+  if (provider.isMetaMask) {
+    return "MetaMask";
+  }
+  return "Browser Wallet";
 }
 
 export function getReadProvider(): JsonRpcProvider {
@@ -104,12 +195,12 @@ export async function getAmoyMintGasOverrides(provider: BrowserProvider) {
   };
 }
 
-export async function getCurrentChainId(): Promise<number | null> {
-  if (!hasInjectedWallet()) {
+export async function getCurrentChainId(provider?: EthereumProvider): Promise<number | null> {
+  if (!provider && !hasInjectedWallet() && !selectedWalletProvider) {
     return null;
   }
 
-  const value = await getInjectedEthereum().request({ method: "eth_chainId" });
+  const value = await getInjectedEthereum(provider).request({ method: "eth_chainId" });
   if (typeof value !== "string") {
     return null;
   }
@@ -117,8 +208,8 @@ export async function getCurrentChainId(): Promise<number | null> {
   return Number.parseInt(value, 16);
 }
 
-export async function switchToTargetNetwork(): Promise<void> {
-  const ethereum = getInjectedEthereum();
+export async function switchToTargetNetwork(provider?: EthereumProvider): Promise<void> {
+  const ethereum = getInjectedEthereum(provider);
   const chainIdHex = `0x${targetChainId.toString(16)}`;
 
   try {

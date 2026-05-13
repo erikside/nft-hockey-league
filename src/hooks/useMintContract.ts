@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ContractState, MintPhase } from "../types";
 import {
   demoContractState,
+  discoverWalletOptions,
   getAmoyMintGasOverrides,
   getBrowserProvider,
   getContract,
@@ -11,10 +12,11 @@ import {
   hasConfiguredContract,
   isMobileDevice,
   loadWhitelistProof,
-  openMetaMaskMobile,
+  setSelectedWalletProvider,
   switchToTargetNetwork,
   targetChainId,
 } from "../lib/web3";
+import type { WalletOption } from "../types";
 
 type MintStatus = "idle" | "loading" | "success" | "error";
 
@@ -25,6 +27,8 @@ export function useMintContract() {
   const [status, setStatus] = useState<MintStatus>("idle");
   const [message, setMessage] = useState("");
   const [mobileWalletFallback, setMobileWalletFallback] = useState(false);
+  const [walletOptions, setWalletOptions] = useState<WalletOption[]>([]);
+  const [selectedWalletName, setSelectedWalletName] = useState("");
 
   const isConfigured = hasConfiguredContract();
   const wrongNetwork = chainId !== null && chainId !== targetChainId;
@@ -67,37 +71,43 @@ export function useMintContract() {
     [account, isConfigured],
   );
 
-  const connectWallet = useCallback(async () => {
+  const refreshWalletOptions = useCallback(async () => {
+    const options = await discoverWalletOptions();
+    setWalletOptions(options);
+    setMobileWalletFallback(isMobileDevice() && options.length === 0);
+    return options;
+  }, []);
+
+  const connectWallet = useCallback(async (walletId?: string) => {
     setStatus("loading");
     setMessage("");
 
     try {
-      if (!hasInjectedWallet()) {
-        if (isMobileDevice()) {
-          setMobileWalletFallback(true);
-          setStatus("idle");
-          openMetaMaskMobile();
-          return;
-        }
+      const options = walletOptions.length > 0 ? walletOptions : await refreshWalletOptions();
+      const wallet = walletId ? options.find((item) => item.id === walletId) : options[0];
 
+      if (!wallet) {
+        setMobileWalletFallback(isMobileDevice());
         throw new Error("No injected wallet found.");
       }
 
+      setSelectedWalletProvider(wallet.provider);
       setMobileWalletFallback(false);
-      const provider = await getBrowserProvider();
+      const provider = await getBrowserProvider(wallet.provider);
       const accounts = (await provider.send("eth_requestAccounts", [])) as string[];
       const selectedAccount = accounts[0] ?? "";
-      const currentChainId = await getCurrentChainId();
+      const currentChainId = await getCurrentChainId(wallet.provider);
 
       setAccount(selectedAccount);
       setChainId(currentChainId);
+      setSelectedWalletName(wallet.name);
       await refreshContractState(selectedAccount);
       setStatus("idle");
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Wallet connection failed.");
     }
-  }, [refreshContractState]);
+  }, [refreshContractState, refreshWalletOptions, walletOptions]);
 
   const mint = useCallback(
     async (phase: MintPhase, quantity: number) => {
@@ -159,9 +169,10 @@ export function useMintContract() {
   }, []);
 
   useEffect(() => {
+    void refreshWalletOptions();
     setMobileWalletFallback(isMobileDevice() && !hasInjectedWallet());
     getCurrentChainId().then(setChainId).catch(() => setChainId(null));
-  }, []);
+  }, [refreshWalletOptions]);
 
   useEffect(() => {
     void refreshContractState();
@@ -178,8 +189,11 @@ export function useMintContract() {
       mint,
       mobileWalletFallback,
       refreshContractState,
+      refreshWalletOptions,
+      selectedWalletName,
       status,
       switchNetwork,
+      walletOptions,
       wrongNetwork,
     }),
     [
@@ -192,8 +206,11 @@ export function useMintContract() {
       mint,
       mobileWalletFallback,
       refreshContractState,
+      refreshWalletOptions,
+      selectedWalletName,
       status,
       switchNetwork,
+      walletOptions,
       wrongNetwork,
     ],
   );

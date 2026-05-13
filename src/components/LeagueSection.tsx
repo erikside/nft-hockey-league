@@ -18,6 +18,7 @@ export function LeagueSection({ locale }: LeagueSectionProps) {
       <div className="team-grid">
         {teams.map((team) => (
           <article className="team-card" key={team.id}>
+            <img className="team-card-image" src={team.image} alt={`${team.name} jersey`} />
             <div className="team-colors" aria-hidden="true">
               {team.colors.map((color) => (
                 <span key={color} style={{ background: color }} />

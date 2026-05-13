@@ -1,33 +1,37 @@
 # Project Roadmap
 
-## V1 - Build And Validate
+## V1 - Independent Pilot
 
-- Create the frontend dApp.
-- Create the ERC-721 contract.
-- Generate 1000 jersey metadata files.
-- Generate whitelist merkle root and proofs.
-- Run local tests and metadata validation.
-- Deploy Cloudflare Pages preview.
+- Build a fully fictional hockey universe with original clubs, jerseys, players, stats, and metadata.
+- Create the React/Vite frontend dApp and ERC-721 smart contract.
+- Generate 1000 jersey metadata files with Epic, Mythic, and Legendary rarities.
+- Keep the project independent: no real NHL/LNH team, player, logo, uniform, or league asset is used.
+- Use this release as the public proof of concept for a larger hockey Web3 vision.
 
-## V2 - Testnet Launch
+## V2 - Contract, Security, And Mint
 
-- Deploy contract to Polygon Amoy.
-- Add contract address to frontend environment.
-- Validate wallet connect and mint flows.
-- Test whitelist and public mint states.
-- Review social launch copy.
+- Deploy on Polygon and keep owner-only controls behind the Safe.
+- Keep royalties and future admin actions controlled by the Safe.
+- Validate wallet connect across MetaMask, Coinbase Wallet, and other injected wallets.
+- Run whitelist, public mint, network, and metadata checks.
+- Publish Cloudflare Pages metadata and jersey assets.
 
-## V3 - Production Launch
+## V3 - Pilot Promotions
 
-- Upload final jersey images and metadata to IPFS.
-- Deploy contract to Polygon mainnet.
-- Deploy frontend to Cloudflare Pages production.
-- Publish X/Facebook campaign.
-- Monitor support and community feedback.
+- Launch the fictional jersey collection and community campaign.
+- Publish X/Facebook posts without financial promises.
+- Run community contests, social drops, reveal updates, and holder voting ideas.
+- Track feedback to understand demand before any official-rights approach.
 
-## V4 - Season 1
+## V4 - Official Rights Path
 
-- Add holder-only voting ideas.
-- Add community standings page.
-- Add post-mint jersey reveal page.
+- Prepare a professional rights dossier for future NHL/LNH or licensed hockey discussions.
+- Explore authorized promotions, official partnerships, and brand-safe campaigns only after written rights are available.
+- Keep all current materials clearly marked as fictional and independent until a formal agreement exists.
+- If rights are obtained, evolve from the pilot universe toward officially licensed jerseys, promotions, and larger fan experiences.
+
+## V5 - Season 1 Evolution
+
+- Add standings, community votes, and post-mint jersey reveal features.
 - Prepare future fantasy-league mechanics only after the NFT launch is stable.
+- Use the pilot data to decide what is worth expanding into the larger licensed version.

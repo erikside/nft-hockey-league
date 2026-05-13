@@ -96,7 +96,7 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
           {status === "loading" ? "..." : `${t.mintNow} ${quantity}`}
         </button>
       ) : (
-        <button className="primary-action" type="button" onClick={mintContract.connectWallet}>
+        <button className="primary-action" type="button" onClick={() => mintContract.connectWallet()}>
           {mobileWalletFallback ? t.openMetaMask : t.connect}
         </button>
       )}

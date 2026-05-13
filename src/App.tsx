@@ -6,7 +6,7 @@ import { LeagueSection } from "./components/LeagueSection";
 import { MintPanel } from "./components/MintPanel";
 import { RoadmapSection } from "./components/RoadmapSection";
 import { SocialAndFaq } from "./components/SocialAndFaq";
-import { copy } from "./data/content";
+import { copy, teams } from "./data/content";
 import { useMintContract } from "./hooks/useMintContract";
 import type { Locale } from "./types";
 
@@ -21,7 +21,10 @@ function App() {
         locale={locale}
         account={mintContract.account}
         onConnect={mintContract.connectWallet}
+        onRefreshWallets={mintContract.refreshWalletOptions}
         onToggleLocale={() => setLocale((value) => (value === "fr" ? "en" : "fr"))}
+        selectedWalletName={mintContract.selectedWalletName}
+        walletOptions={mintContract.walletOptions}
       />
 
       <main>
@@ -29,6 +32,7 @@ function App() {
           <div className="hero-copy">
             <h1>{t.heroTitle}</h1>
             <p>{t.heroText}</p>
+            <p className="pilot-note">{t.pilotText}</p>
             <div className="hero-actions">
               <a className="primary-link" href="#mint">
                 {t.primaryCta}
@@ -42,7 +46,17 @@ function App() {
           </div>
 
           <div className="hero-visual" aria-label="Hockey NFT jersey collection preview">
-            <img src="/nft-assets/rink-hero.svg" alt="" />
+            <div className="hero-showcase">
+              {teams.slice(0, 3).map((team) => (
+                <figure className="hero-jersey-card" key={team.id}>
+                  <img src={team.image} alt={`${team.name} jersey`} />
+                  <figcaption>
+                    <strong>{team.name}</strong>
+                    <span>{team.city}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
 
           <MintPanel locale={locale} mintContract={mintContract} />

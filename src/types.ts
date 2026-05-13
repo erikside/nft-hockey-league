@@ -8,6 +8,7 @@ export type Team = {
   name: string;
   arena: string;
   colors: string[];
+  image: string;
   motto: Record<Locale, string>;
 };
 
@@ -46,3 +47,11 @@ export type ContractState = {
 };
 
 export type MintPhase = "whitelist" | "public";
+
+export type WalletOption = {
+  id: string;
+  name: string;
+  icon?: string;
+  rdns?: string;
+  provider: EthereumProvider;
+};

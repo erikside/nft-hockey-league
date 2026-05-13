@@ -1,5 +1,4 @@
 import { copy, featuredJerseys, raritySupply, teamById } from "../data/content";
-import type { CSSProperties } from "react";
 import type { Locale, Rarity } from "../types";
 
 const rarityOrder: Rarity[] = ["Epic", "Mythic", "Legendary"];
@@ -35,9 +34,6 @@ export function CollectionSection({ locale }: CollectionSectionProps) {
       <div className="jersey-grid">
         {featuredJerseys.map((jersey) => {
           const team = teamById(jersey.teamId);
-          const primary = team.colors[0];
-          const secondary = team.colors[1];
-          const accent = team.colors[2];
 
           return (
             <article className={`nft-jersey nft-${jersey.rarity.toLowerCase()}`} key={jersey.token}>
@@ -45,18 +41,9 @@ export function CollectionSection({ locale }: CollectionSectionProps) {
                 <span>#{String(jersey.token).padStart(4, "0")}</span>
                 <strong>{jersey.rarity}</strong>
               </div>
-              <div
-                className="jersey-art"
-                aria-hidden="true"
-                style={
-                  {
-                    "--jersey-primary": primary,
-                    "--jersey-secondary": secondary,
-                    "--jersey-accent": accent,
-                  } as CSSProperties
-                }
-              >
-                <span className="jersey-number">{String(jersey.token).padStart(2, "0").slice(-2)}</span>
+              <div className="jersey-art">
+                <img src={team.image} alt={`${team.name} jersey`} />
+                <span className="jersey-number">#{String(jersey.token).padStart(4, "0")}</span>
                 <span className="jersey-position">{jersey.position}</span>
               </div>
               <h3>{jersey.name}</h3>
