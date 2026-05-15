@@ -32,8 +32,8 @@
         "payable": false
       },
       "contractInputsValues": {
-        "whitelistActive": false,
-        "publicActive": true
+        "whitelistActive": "false",
+        "publicActive": "true"
       }
     }
   ]
