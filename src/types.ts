@@ -55,3 +55,9 @@ export type WalletOption = {
   rdns?: string;
   provider: EthereumProvider;
 };
+
+export type WalletFallbackLink = {
+  id: string;
+  name: string;
+  href: string;
+};

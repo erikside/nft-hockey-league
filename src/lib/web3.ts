@@ -1,6 +1,6 @@
 import { BrowserProvider, Contract, JsonRpcProvider, formatEther, parseUnits, type Eip1193Provider } from "ethers";
 import { hockeyNftLeagueAbi } from "../contracts/hockeyNftLeagueAbi";
-import type { ContractState, MintPhase, WalletOption } from "../types";
+import type { ContractState, MintPhase, WalletFallbackLink, WalletOption } from "../types";
 
 const polygonChainId = 137;
 
@@ -64,6 +64,38 @@ export function getMetaMaskMobileDeepLink(): string {
 
 export function openMetaMaskMobile(): void {
   window.location.href = getMetaMaskMobileDeepLink();
+}
+
+function getCurrentDappUrl(): string {
+  if (typeof window === "undefined") {
+    return "https://hockey-nft-league.pages.dev/";
+  }
+
+  return window.location.href;
+}
+
+function getCoinbaseWalletDeepLink(): string {
+  return `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(getCurrentDappUrl())}`;
+}
+
+function getTrustWalletDeepLink(): string {
+  return `https://link.trustwallet.com/open_url?url=${encodeURIComponent(getCurrentDappUrl())}`;
+}
+
+export function getWalletFallbackLinks(): WalletFallbackLink[] {
+  if (isMobileDevice()) {
+    return [
+      { id: "metamask-mobile", name: "MetaMask", href: getMetaMaskMobileDeepLink() },
+      { id: "coinbase-mobile", name: "Coinbase Wallet", href: getCoinbaseWalletDeepLink() },
+      { id: "trust-mobile", name: "Trust Wallet", href: getTrustWalletDeepLink() },
+    ];
+  }
+
+  return [
+    { id: "metamask-install", name: "Installer MetaMask", href: "https://metamask.io/download/" },
+    { id: "coinbase-install", name: "Installer Coinbase Wallet", href: "https://www.coinbase.com/wallet/downloads" },
+    { id: "rabby-install", name: "Installer Rabby", href: "https://rabby.io/" },
+  ];
 }
 
 function getInjectedEthereum(provider?: EthereumProvider): EthereumProvider {

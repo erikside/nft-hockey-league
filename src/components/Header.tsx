@@ -1,8 +1,8 @@
-import { ChevronDown, Globe2, RefreshCw, Wallet } from "lucide-react";
+import { ChevronDown, ExternalLink, Globe2, RefreshCw, Wallet } from "lucide-react";
 import { useState } from "react";
 import { copy } from "../data/content";
 import { shortAddress } from "../lib/web3";
-import type { Locale, WalletOption } from "../types";
+import type { Locale, WalletFallbackLink, WalletOption } from "../types";
 
 type HeaderProps = {
   locale: Locale;
@@ -11,6 +11,7 @@ type HeaderProps = {
   onRefreshWallets: () => void;
   onToggleLocale: () => void;
   selectedWalletName: string;
+  walletFallbackLinks: WalletFallbackLink[];
   walletOptions: WalletOption[];
 };
 
@@ -21,6 +22,7 @@ export function Header({
   onRefreshWallets,
   onToggleLocale,
   selectedWalletName,
+  walletFallbackLinks,
   walletOptions,
 }: HeaderProps) {
   const t = copy[locale];
@@ -89,7 +91,15 @@ export function Header({
                   </button>
                 ))
               ) : (
-                <p>{t.noWallet}</p>
+                <div className="wallet-fallback-list">
+                  <p>{t.noWallet}</p>
+                  {walletFallbackLinks.map((link) => (
+                    <a className="wallet-fallback-link" href={link.href} key={link.id} target="_blank" rel="noreferrer">
+                      <ExternalLink size={15} />
+                      <span>{link.name}</span>
+                    </a>
+                  ))}
+                </div>
               )}
             </div>
           )}

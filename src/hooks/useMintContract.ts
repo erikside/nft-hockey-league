@@ -8,6 +8,7 @@ import {
   getContract,
   getCurrentChainId,
   getReadProvider,
+  getWalletFallbackLinks,
   hasInjectedWallet,
   hasConfiguredContract,
   isMobileDevice,
@@ -16,7 +17,7 @@ import {
   switchToTargetNetwork,
   targetChainId,
 } from "../lib/web3";
-import type { WalletOption } from "../types";
+import type { WalletFallbackLink, WalletOption } from "../types";
 
 type MintStatus = "idle" | "loading" | "success" | "error";
 
@@ -28,6 +29,7 @@ export function useMintContract() {
   const [message, setMessage] = useState("");
   const [mobileWalletFallback, setMobileWalletFallback] = useState(false);
   const [walletOptions, setWalletOptions] = useState<WalletOption[]>([]);
+  const [walletFallbackLinks, setWalletFallbackLinks] = useState<WalletFallbackLink[]>([]);
   const [selectedWalletName, setSelectedWalletName] = useState("");
 
   const isConfigured = hasConfiguredContract();
@@ -74,6 +76,7 @@ export function useMintContract() {
   const refreshWalletOptions = useCallback(async () => {
     const options = await discoverWalletOptions();
     setWalletOptions(options);
+    setWalletFallbackLinks(getWalletFallbackLinks());
     setMobileWalletFallback(isMobileDevice() && options.length === 0);
     return options;
   }, []);
@@ -88,7 +91,7 @@ export function useMintContract() {
 
       if (!wallet) {
         setMobileWalletFallback(isMobileDevice());
-        throw new Error("No injected wallet found.");
+        throw new Error("No injected wallet found. Open the site inside MetaMask, Coinbase Wallet, or Trust Wallet.");
       }
 
       setSelectedWalletProvider(wallet.provider);
@@ -170,6 +173,7 @@ export function useMintContract() {
 
   useEffect(() => {
     void refreshWalletOptions();
+    setWalletFallbackLinks(getWalletFallbackLinks());
     setMobileWalletFallback(isMobileDevice() && !hasInjectedWallet());
     getCurrentChainId().then(setChainId).catch(() => setChainId(null));
   }, [refreshWalletOptions]);
@@ -193,6 +197,7 @@ export function useMintContract() {
       selectedWalletName,
       status,
       switchNetwork,
+      walletFallbackLinks,
       walletOptions,
       wrongNetwork,
     }),
@@ -210,6 +215,7 @@ export function useMintContract() {
       selectedWalletName,
       status,
       switchNetwork,
+      walletFallbackLinks,
       walletOptions,
       wrongNetwork,
     ],

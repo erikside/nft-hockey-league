@@ -170,7 +170,9 @@ img {
 }
 
 .wallet-menu-heading,
-.wallet-option {
+.wallet-option,
+.wallet-fallback-link,
+.wallet-inline-links a {
   display: flex;
   align-items: center;
 }
@@ -214,6 +216,28 @@ img {
   width: 22px;
   height: 22px;
   border-radius: 6px;
+}
+
+.wallet-fallback-list {
+  display: grid;
+  gap: 8px;
+}
+
+.wallet-fallback-link,
+.wallet-inline-links a {
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid rgba(191, 247, 255, 0.2);
+  border-radius: 7px;
+  color: var(--ice);
+  background: rgba(191, 247, 255, 0.08);
+  text-decoration: none;
+}
+
+.wallet-fallback-link:hover,
+.wallet-inline-links a:hover {
+  border-color: rgba(191, 247, 255, 0.5);
 }
 
 .wallet-menu p {
@@ -495,6 +519,20 @@ img {
 .primary-action:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.wallet-inline-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.wallet-inline-links a {
+  justify-content: center;
+  min-height: 38px;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .notice {

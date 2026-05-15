@@ -1,4 +1,4 @@
-import { Minus, Plus, ShieldCheck, Zap } from "lucide-react";
+import { ExternalLink, Minus, Plus, ShieldCheck, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { copy } from "../data/content";
 import { formatMintPrice, phaseLabel, targetChainName } from "../lib/web3";
@@ -17,6 +17,15 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
   const { account, contractState, isConfigured, message, mobileWalletFallback, status, wrongNetwork } = mintContract;
   const active = phase === "whitelist" ? contractState.whitelistActive : contractState.publicActive;
   const disabled = status === "loading" || !account || wrongNetwork || !active || contractState.remaining === 0;
+
+  const connectOrOpenWallet = () => {
+    if (mintContract.walletOptions.length === 0 && mintContract.walletFallbackLinks.length > 0) {
+      window.open(mintContract.walletFallbackLinks[0].href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    void mintContract.connectWallet();
+  };
 
   useEffect(() => {
     if (contractState.publicActive && !contractState.whitelistActive) {
@@ -102,12 +111,22 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
           {status === "loading" ? "..." : `${t.mintNow} ${quantity}`}
         </button>
       ) : (
-        <button className="primary-action" type="button" onClick={() => mintContract.connectWallet()}>
+        <button className="primary-action" type="button" onClick={connectOrOpenWallet}>
           {mobileWalletFallback ? t.openMetaMask : t.connect}
         </button>
       )}
 
       {!isConfigured && <p className="notice">{t.demoMode}</p>}
+      {!account && mintContract.walletOptions.length === 0 && mintContract.walletFallbackLinks.length > 0 && (
+        <div className="wallet-inline-links" aria-label={t.chooseWallet}>
+          {mintContract.walletFallbackLinks.map((link) => (
+            <a href={link.href} key={link.id} target="_blank" rel="noreferrer">
+              <ExternalLink size={14} />
+              <span>{link.name}</span>
+            </a>
+          ))}
+        </div>
+      )}
       {mobileWalletFallback && !account && <p className="notice">{t.mobileWalletHint}</p>}
       {message && <p className={`notice ${status === "error" ? "is-error" : "is-success"}`}>{message}</p>}
     </section>

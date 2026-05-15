@@ -24,6 +24,7 @@ function App() {
         onRefreshWallets={mintContract.refreshWalletOptions}
         onToggleLocale={() => setLocale((value) => (value === "fr" ? "en" : "fr"))}
         selectedWalletName={mintContract.selectedWalletName}
+        walletFallbackLinks={mintContract.walletFallbackLinks}
         walletOptions={mintContract.walletOptions}
       />
 

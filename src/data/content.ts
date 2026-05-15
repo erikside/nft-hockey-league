@@ -12,9 +12,11 @@ export const copy = {
     connect: "Connecter",
     chooseWallet: "Choisir un wallet",
     refreshWallets: "Rafraichir",
-    noWallet: "Aucun wallet detecte. Ouvre ce site dans MetaMask, Coinbase Wallet ou un autre navigateur wallet.",
+    noWallet:
+      "Aucun wallet detecte dans ce navigateur. Ouvre l'app dans un wallet mobile ou installe/active ton extension.",
     openMetaMask: "Ouvrir dans un wallet",
-    mobileWalletHint: "Sur mobile, ouvre le site dans le navigateur de ton wallet pour connecter ton compte.",
+    mobileWalletHint:
+      "Sur mobile, utilise un lien wallet ci-dessus. Sur ordinateur, active l'extension puis rafraichis la liste.",
     connected: "Wallet connecte",
     heroTitle: "Hockey NFT League",
     heroText:
@@ -53,9 +55,11 @@ export const copy = {
     connect: "Connect",
     chooseWallet: "Choose a wallet",
     refreshWallets: "Refresh",
-    noWallet: "No wallet detected. Open this site in MetaMask, Coinbase Wallet, or another wallet browser.",
+    noWallet:
+      "No wallet detected in this browser. Open the app in a mobile wallet or install/enable your extension.",
     openMetaMask: "Open in wallet",
-    mobileWalletHint: "On mobile, open the site inside your wallet browser to connect your account.",
+    mobileWalletHint:
+      "On mobile, use one of the wallet links above. On desktop, enable the extension and refresh the list.",
     connected: "Wallet connected",
     heroTitle: "Hockey NFT League",
     heroText:
