@@ -1,5 +1,5 @@
 import { Minus, Plus, ShieldCheck, Zap } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { copy } from "../data/content";
 import { formatMintPrice, phaseLabel, targetChainName } from "../lib/web3";
 import type { Locale, MintPhase } from "../types";
@@ -17,6 +17,12 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
   const { account, contractState, isConfigured, message, mobileWalletFallback, status, wrongNetwork } = mintContract;
   const active = phase === "whitelist" ? contractState.whitelistActive : contractState.publicActive;
   const disabled = status === "loading" || !account || wrongNetwork || !active || contractState.remaining === 0;
+
+  useEffect(() => {
+    if (contractState.publicActive && !contractState.whitelistActive) {
+      setPhase("public");
+    }
+  }, [contractState.publicActive, contractState.whitelistActive]);
 
   return (
     <section className="mint-panel" id="mint" aria-labelledby="mint-title">
