@@ -14,9 +14,19 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
   const t = copy[locale];
   const [phase, setPhase] = useState<MintPhase>("whitelist");
   const [quantity, setQuantity] = useState(1);
-  const { account, contractState, isConfigured, message, mobileWalletFallback, status, wrongNetwork } = mintContract;
-  const active = phase === "whitelist" ? contractState.whitelistActive : contractState.publicActive;
-  const disabled = status === "loading" || !account || wrongNetwork || !active || contractState.remaining === 0;
+  const {
+    account,
+    contractState,
+    contractStateLoaded,
+    isConfigured,
+    message,
+    mobileWalletFallback,
+    status,
+    wrongNetwork,
+  } = mintContract;
+  const active = contractStateLoaded && (phase === "whitelist" ? contractState.whitelistActive : contractState.publicActive);
+  const disabled =
+    status === "loading" || !account || wrongNetwork || !active || !contractStateLoaded || contractState.remaining === 0;
 
   const connectOrOpenWallet = () => {
     if (mintContract.walletOptions.length === 0 && mintContract.walletFallbackLinks.length > 0) {
@@ -40,7 +50,9 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
           <h2 id="mint-title">{t.mintTitle}</h2>
           <p>{formatMintPrice(contractState.mintPrice)} / NFT</p>
         </div>
-        <span className={`status-dot ${active ? "is-live" : ""}`}>{active ? "Live" : "Standby"}</span>
+        <span className={`status-dot ${active ? "is-live" : ""}`}>
+          {!contractStateLoaded && isConfigured ? t.readingChain : active ? "Live" : "Standby"}
+        </span>
       </div>
 
       <div className="supply-meter">
@@ -117,6 +129,7 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
       )}
 
       {!isConfigured && <p className="notice">{t.demoMode}</p>}
+      {isConfigured && !contractStateLoaded && <p className="notice is-error">{t.chainReadUnavailable}</p>}
       {!account && mintContract.walletOptions.length === 0 && mintContract.walletFallbackLinks.length > 0 && (
         <div className="wallet-inline-links" aria-label={t.chooseWallet}>
           {mintContract.walletFallbackLinks.map((link) => (

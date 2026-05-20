@@ -1,4 +1,13 @@
-import { BrowserProvider, Contract, JsonRpcProvider, formatEther, parseUnits, type Eip1193Provider } from "ethers";
+import {
+  BrowserProvider,
+  Contract,
+  FallbackProvider,
+  JsonRpcProvider,
+  formatEther,
+  parseUnits,
+  type ContractRunner,
+  type Eip1193Provider,
+} from "ethers";
 import { hockeyNftLeagueAbi } from "../contracts/hockeyNftLeagueAbi";
 import type { ContractState, MintPhase, WalletFallbackLink, WalletOption } from "../types";
 
@@ -8,8 +17,16 @@ export const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS ?? "";
 export const targetChainId = Number(import.meta.env.VITE_CHAIN_ID ?? polygonChainId);
 export const targetChainName = import.meta.env.VITE_CHAIN_NAME ?? "Polygon";
 export const blockExplorerUrl = import.meta.env.VITE_BLOCK_EXPLORER_URL ?? "https://polygonscan.com";
-export const fallbackRpcUrl =
-  import.meta.env.VITE_RPC_URL ?? "https://polygon-bor-rpc.publicnode.com";
+export const fallbackRpcUrl = import.meta.env.VITE_RPC_URL ?? "https://polygon.drpc.org";
+
+const defaultReadRpcUrls = ["https://polygon.drpc.org"];
+
+const configuredReadRpcUrls = String(import.meta.env.VITE_RPC_URLS ?? "")
+  .split(",")
+  .map((url) => url.trim())
+  .filter(Boolean);
+
+export const readRpcUrls = Array.from(new Set([...configuredReadRpcUrls, fallbackRpcUrl, ...defaultReadRpcUrls]));
 
 let selectedWalletProvider: EthereumProvider | null = null;
 
@@ -19,6 +36,16 @@ export const demoContractState: ContractState = {
   remaining: 682,
   mintPrice: 25_000_000_000_000_000n,
   whitelistActive: true,
+  publicActive: false,
+  mintedByWallet: 0,
+};
+
+export const pendingContractState: ContractState = {
+  maxSupply: 1000,
+  minted: 0,
+  remaining: 1000,
+  mintPrice: 25_000_000_000_000_000n,
+  whitelistActive: false,
   publicActive: false,
   mintedByWallet: 0,
 };
@@ -195,13 +222,22 @@ function legacyWalletName(provider: EthereumProvider): string {
   return "Browser Wallet";
 }
 
-export function getReadProvider(): JsonRpcProvider {
-  return new JsonRpcProvider(fallbackRpcUrl);
+export function getReadProvider(): JsonRpcProvider | FallbackProvider {
+  const providers = readRpcUrls.map((url, index) => ({
+    provider: new JsonRpcProvider(url, targetChainId, { staticNetwork: true }),
+    priority: index + 1,
+    weight: 1,
+    stallTimeout: 1_500,
+  }));
+
+  if (providers.length === 1) {
+    return providers[0].provider;
+  }
+
+  return new FallbackProvider(providers, targetChainId, { quorum: 1 });
 }
 
-export function getContract(
-  providerOrSigner: BrowserProvider | JsonRpcProvider | Awaited<ReturnType<BrowserProvider["getSigner"]>>,
-) {
+export function getContract(providerOrSigner: ContractRunner) {
   if (!hasConfiguredContract()) {
     throw new Error("Contract address is not configured.");
   }

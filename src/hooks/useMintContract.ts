@@ -13,6 +13,7 @@ import {
   hasConfiguredContract,
   isMobileDevice,
   loadWhitelistProof,
+  pendingContractState,
   setSelectedWalletProvider,
   switchToTargetNetwork,
   targetChainId,
@@ -24,7 +25,10 @@ type MintStatus = "idle" | "loading" | "success" | "error";
 export function useMintContract() {
   const [account, setAccount] = useState("");
   const [chainId, setChainId] = useState<number | null>(null);
-  const [contractState, setContractState] = useState<ContractState>(demoContractState);
+  const [contractState, setContractState] = useState<ContractState>(
+    hasConfiguredContract() ? pendingContractState : demoContractState,
+  );
+  const [contractStateLoaded, setContractStateLoaded] = useState(!hasConfiguredContract());
   const [status, setStatus] = useState<MintStatus>("idle");
   const [message, setMessage] = useState("");
   const [mobileWalletFallback, setMobileWalletFallback] = useState(false);
@@ -39,6 +43,7 @@ export function useMintContract() {
     async (walletAddress = account) => {
       if (!isConfigured) {
         setContractState(demoContractState);
+        setContractStateLoaded(true);
         return;
       }
 
@@ -66,7 +71,9 @@ export function useMintContract() {
           publicActive: Boolean(publicActive),
           mintedByWallet: Number(mintedByWallet),
         });
+        setContractStateLoaded(true);
       } catch (error) {
+        setContractStateLoaded(false);
         setMessage(error instanceof Error ? error.message : "Unable to read contract state.");
       }
     },
@@ -188,6 +195,7 @@ export function useMintContract() {
       chainId,
       connectWallet,
       contractState,
+      contractStateLoaded,
       isConfigured,
       message,
       mint,
@@ -206,6 +214,7 @@ export function useMintContract() {
       chainId,
       connectWallet,
       contractState,
+      contractStateLoaded,
       isConfigured,
       message,
       mint,

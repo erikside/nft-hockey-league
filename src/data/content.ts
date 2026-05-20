@@ -18,6 +18,9 @@ export const copy = {
     mobileWalletHint:
       "Sur mobile, utilise un lien wallet ci-dessus. Sur ordinateur, active l'extension puis rafraichis la liste.",
     connected: "Wallet connecte",
+    readingChain: "Lecture",
+    chainReadUnavailable:
+      "Lecture on-chain indisponible pour le moment. La page ne montre pas de phase live tant que Polygon ne repond pas.",
     heroTitle: "Hockey NFT League",
     heroText:
       "Un pilote Web3 de hockey avec 1000 jerseys ERC-721, des equipes originales, des stats de joueur et une base concue pour evoluer vers un projet plus officiel si les droits necessaires sont obtenus.",
@@ -61,6 +64,9 @@ export const copy = {
     mobileWalletHint:
       "On mobile, use one of the wallet links above. On desktop, enable the extension and refresh the list.",
     connected: "Wallet connected",
+    readingChain: "Reading",
+    chainReadUnavailable:
+      "On-chain read is temporarily unavailable. The page will not show a live phase until Polygon responds.",
     heroTitle: "Hockey NFT League",
     heroText:
       "A Web3 hockey pilot with 1000 ERC-721 jerseys, original teams, player stats, and a foundation designed to evolve into a more official project if the required rights are secured.",
