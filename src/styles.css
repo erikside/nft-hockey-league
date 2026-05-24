@@ -548,6 +548,10 @@ img {
   color: var(--mint);
 }
 
+.is-warning {
+  color: #ffd27a;
+}
+
 .content-section {
   padding: 86px 0;
   border-top: 1px solid var(--line);

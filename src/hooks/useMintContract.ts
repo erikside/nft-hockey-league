@@ -17,6 +17,7 @@ import {
   setSelectedWalletProvider,
   switchToTargetNetwork,
   targetChainId,
+  walletMintLimit,
 } from "../lib/web3";
 import type { WalletFallbackLink, WalletOption } from "../types";
 
@@ -141,6 +142,10 @@ export function useMintContract() {
         const contract = getContract(signer);
         const value = contractState.mintPrice * BigInt(quantity);
         const gasOverrides = await getAmoyMintGasOverrides(provider);
+
+        if (contractState.mintedByWallet + quantity > walletMintLimit) {
+          throw new Error("Wallet mint limit reached.");
+        }
 
         if (phase === "whitelist") {
           const proof = await loadWhitelistProof(account);

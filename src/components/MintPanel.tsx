@@ -1,7 +1,7 @@
 import { ExternalLink, Minus, Plus, ShieldCheck, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { copy } from "../data/content";
-import { formatMintPrice, phaseLabel, targetChainName } from "../lib/web3";
+import { formatMintPrice, phaseLabel, targetChainName, walletMintLimit } from "../lib/web3";
 import type { Locale, MintPhase } from "../types";
 import { useMintContract } from "../hooks/useMintContract";
 
@@ -25,8 +25,18 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
     wrongNetwork,
   } = mintContract;
   const active = contractStateLoaded && (phase === "whitelist" ? contractState.whitelistActive : contractState.publicActive);
+  const walletRemaining = account ? Math.max(walletMintLimit - contractState.mintedByWallet, 0) : walletMintLimit;
+  const quantityLimit = Math.max(1, Math.min(walletMintLimit, walletRemaining));
+  const walletLimitReached = Boolean(account) && contractStateLoaded && walletRemaining === 0;
   const disabled =
-    status === "loading" || !account || wrongNetwork || !active || !contractStateLoaded || contractState.remaining === 0;
+    status === "loading" ||
+    !account ||
+    wrongNetwork ||
+    !active ||
+    !contractStateLoaded ||
+    contractState.remaining === 0 ||
+    walletLimitReached ||
+    quantity > walletRemaining;
 
   const connectOrOpenWallet = () => {
     if (mintContract.walletOptions.length === 0 && mintContract.walletFallbackLinks.length > 0) {
@@ -42,6 +52,12 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
       setPhase("public");
     }
   }, [contractState.publicActive, contractState.whitelistActive]);
+
+  useEffect(() => {
+    if (account && walletRemaining > 0 && quantity > walletRemaining) {
+      setQuantity(walletRemaining);
+    }
+  }, [account, quantity, walletRemaining]);
 
   return (
     <section className="mint-panel" id="mint" aria-labelledby="mint-title">
@@ -97,7 +113,7 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
             <Minus size={16} />
           </button>
           <strong>{quantity}</strong>
-          <button type="button" onClick={() => setQuantity((value) => Math.min(3, value + 1))} aria-label="Increase">
+          <button type="button" onClick={() => setQuantity((value) => Math.min(quantityLimit, value + 1))} aria-label="Increase">
             <Plus size={16} />
           </button>
         </div>
@@ -105,6 +121,11 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
 
       <div className="mint-facts">
         <span>{t.walletLimit}</span>
+        {account && (
+          <span className={walletLimitReached ? "is-warning" : ""}>
+            {t.walletMinted}: {contractState.mintedByWallet}/{walletMintLimit}
+          </span>
+        )}
         <span>{t.ownerReserve}</span>
         <span>{phaseLabel(phase)} phase</span>
       </div>
@@ -120,7 +141,7 @@ export function MintPanel({ locale, mintContract }: MintPanelProps) {
           disabled={disabled}
           onClick={() => mintContract.mint(phase, quantity)}
         >
-          {status === "loading" ? "..." : `${t.mintNow} ${quantity}`}
+          {walletLimitReached ? t.walletLimitReached : status === "loading" ? "..." : `${t.mintNow} ${quantity}`}
         </button>
       ) : (
         <button className="primary-action" type="button" onClick={connectOrOpenWallet}>

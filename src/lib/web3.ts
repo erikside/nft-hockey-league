@@ -18,6 +18,7 @@ export const targetChainId = Number(import.meta.env.VITE_CHAIN_ID ?? polygonChai
 export const targetChainName = import.meta.env.VITE_CHAIN_NAME ?? "Polygon";
 export const blockExplorerUrl = import.meta.env.VITE_BLOCK_EXPLORER_URL ?? "https://polygonscan.com";
 export const fallbackRpcUrl = import.meta.env.VITE_RPC_URL ?? "https://polygon.drpc.org";
+export const walletMintLimit = 3;
 
 const defaultReadRpcUrls = ["https://polygon.drpc.org"];
 
