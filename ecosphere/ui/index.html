@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EcoSphere — Mint & Stake</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<style>
+  :root {
+    --green-900: #12331f;
+    --green-700: #1B5E3F;
+    --green-500: #4A9D6F;
+    --green-100: #DCEBE1;
+    --gold-600: #A67F2E;
+    --gold-500: #C9A24B;
+    --gold-100: #F3E9D2;
+    --paper: #FAF8F3;
+    --card: #FFFFFF;
+    --ink: #1A1A1A;
+    --muted: #6B7568;
+    --border: #E4E1D6;
+    --danger: #B3432C;
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.5;
+  }
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: 100vh;
+  }
+  .rail {
+    background: var(--green-700);
+    color: #fff;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .rail::before {
+    content: "";
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    background: var(--green-500);
+    opacity: 0.18;
+    top: -140px;
+    right: -160px;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+  .tagline {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #BFE0CD;
+    position: relative;
+    line-height: 1.5;
+  }
+  .rail-nav {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+  }
+  .rail-nav button {
+    all: unset;
+    cursor: pointer;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #D7E8DD;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .rail-nav button.active {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-weight: 600;
+  }
+  .rail-nav button:hover:not(.active) {
+    background: rgba(255,255,255,0.06);
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-500); flex-shrink: 0; }
+  .rail-foot {
+    margin-top: auto;
+    position: relative;
+    font-size: 12px;
+    color: #9FC3AF;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .rail-foot a { color: #D7E8DD; }
+
+  .main { padding: 2.5rem 3rem; }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    gap: 1rem;
+  }
+  .view-title { font-family: var(--font-display); font-size: 26px; font-weight: 700; margin: 0; }
+  .view-sub { color: var(--muted); font-size: 14px; margin: 4px 0 0; }
+
+  .wallet-box { display: flex; align-items: center; gap: 10px; }
+  .pill {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: var(--green-100);
+    color: var(--green-700);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pill.warn { background: #FBEAE3; color: var(--danger); }
+  .btn {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.88; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primary { background: var(--green-700); color: #fff; }
+  .btn-gold { background: var(--gold-500); color: #3B2A0E; }
+  .btn-outline { background: transparent; color: var(--green-700); border: 1.5px solid var(--green-700); }
+
+  .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.5rem; align-items: start; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.75rem;
+  }
+  .card h3 { margin: 0 0 4px; font-family: var(--font-display); font-size: 18px; }
+  .card .hint { color: var(--muted); font-size: 13px; margin: 0 0 1.25rem; }
+
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+  input, textarea {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 1rem;
+    background: var(--paper);
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--green-500); }
+  textarea { resize: vertical; min-height: 70px; }
+
+  .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .k { color: var(--muted); }
+  .stat-row .v { font-weight: 600; }
+
+  .rings-wrap { display: flex; flex-direction: column; align-items: center; padding: 1rem 0 0.5rem; }
+  .rings-value { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-top: -128px; }
+  .rings-label { font-size: 12px; color: var(--muted); margin-top: 4px; margin-bottom: 1rem; }
+
+  .msg { font-size: 13px; padding: 10px 12px; border-radius: 8px; margin-top: 0.75rem; display: none; }
+  .msg.show { display: block; }
+  .msg.info { background: var(--green-100); color: var(--green-700); }
+  .msg.error { background: #FBEAE3; color: var(--danger); }
+  .msg.pending { background: var(--gold-100); color: var(--gold-600); }
+
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 1rem; }
+  .art-tile {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--green-500), var(--green-700));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-family: var(--font-display); font-size: 13px;
+    position: relative;
+  }
+  .art-tile span { position: absolute; bottom: 6px; left: 8px; font-size: 10px; opacity: 0.85; }
+
+  .toggle-row { display: flex; gap: 8px; margin-bottom: 1.25rem; }
+  .toggle-row button {
+    flex: 1;
+    padding: 9px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--paper);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .toggle-row button.active { background: var(--green-700); border-color: var(--green-700); color: #fff; }
+
+  .empty { text-align: center; color: var(--muted); font-size: 13px; padding: 1.5rem 0; }
+
+  @media (max-width: 800px) {
+    .shell { grid-template-columns: 1fr; }
+    .rail { padding: 1.5rem; }
+    .main { padding: 1.5rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="rail">
+    <div class="wordmark">EcoSphere</div>
+    <div class="tagline">ECKO — le token utilitaire des créateurs eco-art et du financement climat.</div>
+
+    <div class="rail-nav">
+      <button id="nav-stake" class="active" onclick="switchView('stake')">
+        <span class="dot"></span> Staking ECKO
+      </button>
+      <button id="nav-mint" onclick="switchView('mint')">
+        <span class="dot"></span> Mint eco-art
+      </button>
+    </div>
+
+    <div class="rail-foot">
+      Réseau : <strong id="rail-network">Polygon Amoy</strong><br/>
+      <a href="#" id="rail-explorer" target="_blank" rel="noopener">Voir sur l'explorateur ↗</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <h1 class="view-title" id="view-title">Staking ECKO</h1>
+        <p class="view-sub" id="view-sub">Stake tes ECKO pour percevoir des récompenses et participer à la gouvernance.</p>
+      </div>
+      <div class="wallet-box">
+        <span class="pill" id="network-pill">Non connecté</span>
+        <button class="btn btn-primary" id="connect-btn" onclick="connectWallet()">Connecter le wallet</button>
+      </div>
+    </div>
+
+    <div id="view-stake">
+      <div class="grid">
+        <div class="card">
+          <h3>Staker / retirer</h3>
+          <p class="hint">Solde disponible : <strong id="eck-balance">—</strong> ECKO</p>
+
+          <div class="toggle-row">
+            <button id="mode-stake" class="active" onclick="setStakeMode('stake')">Staker</button>
+            <button id="mode-unstake" onclick="setStakeMode('unstake')">Retirer</button>
+          </div>
+
+          <label for="stake-amount">Montant (ECKO)</label>
+          <input id="stake-amount" type="number" min="0" step="0.0001" placeholder="0.0" />
+
+          <button class="btn btn-primary" id="stake-action-btn" onclick="doStakeAction()" style="width:100%">
+            Staker mes ECKO
+          </button>
+
+          <div class="msg" id="stake-msg"></div>
+        </div>
+
+        <div class="card">
+          <h3>Ta position</h3>
+          <p class="hint">Récompenses accumulées, mises à jour en direct.</p>
+
+          <div class="rings-wrap">
+            <svg width="220" height="220" viewBox="0 0 220 220">
+              <circle cx="110" cy="110" r="95" fill="none" stroke="#EFEAD9" stroke-width="14" />
+              <circle id="ring-principal" cx="110" cy="110" r="95" fill="none" stroke="#1B5E3F" stroke-width="14"
+                stroke-linecap="round" stroke-dasharray="0 597" transform="rotate(-90 110 110)" />
+              <circle cx="110" cy="110" r="72" fill="none" stroke="#F3E9D2" stroke-width="12" />
+              <circle id="ring-reward" cx="110" cy="110" r="72" fill="none" stroke="#C9A24B" stroke-width="12"
+                stroke-linecap="round" stroke-dasharray="0 452" transform="rotate(-90 110 110)" />
+            </svg>
+            <div class="rings-value" id="rings-total">0</div>
+            <div class="rings-label">ECKO stakés + récompenses</div>
+          </div>
+
+          <div class="stat-row"><span class="k">Montant staké</span><span class="v" id="staked-amount">0 ECKO</span></div>
+          <div class="stat-row"><span class="k">Récompenses en attente</span><span class="v" id="pending-reward">0 ECKO</span></div>
+          <div class="stat-row"><span class="k">Taux annuel (APY)</span><span class="v" id="apy-rate">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-mint" style="display:none">
+      <div class="grid">
+        <div class="card">
+          <h3>Créer une œuvre eco-art</h3>
+          <p class="hint">70% du prix te revient directement, 30% finance des campagnes de reforestation vérifiées.</p>
+
+          <label for="art-title">Titre de l'œuvre</label>
+          <input id="art-title" type="text" placeholder="Ex: Renaissance de la mangrove" />
+
+          <label for="art-desc">Description</label>
+          <textarea id="art-desc" placeholder="Décris ton œuvre et son lien avec l'impact climatique..."></textarea>
+
+          <label for="art-image">URL de l'image (IPFS ou HTTPS)</label>
+          <input id="art-image" type="text" placeholder="ipfs://... ou https://..." />
+
+          <button class="btn btn-gold" id="mint-btn" onclick="doMint()" style="width:100%">
+            Mint pour <span id="mint-price">0.01</span> MATIC
+          </button>
+
+          <div class="msg" id="mint-msg"></div>
+        </div>
+
+        <div class="card">
+          <h3>Répartition des revenus</h3>
+          <p class="hint">Chaque mint finance directement l'écosystème.</p>
+
+          <div class="stat-row"><span class="k">Part créateur</span><span class="v" id="creator-share">70%</span></div>
+          <div class="stat-row"><span class="k">Fonds reforestation</span><span class="v" id="treasury-share">30%</span></div>
+          <div class="stat-row"><span class="k">Œuvres mintées</span><span class="v" id="total-minted">—</span></div>
+
+          <h3 style="margin-top:1.5rem">Galerie récente</h3>
+          <div class="gallery" id="gallery"></div>
+          <div class="empty" id="gallery-empty">Aucune œuvre mintée pour l'instant. Sois le premier.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // CONFIGURATION — remplace ces valeurs par les tiennes.
+  // ============================================================
+  const CONFIG = {
+    CHAIN_ID_HEX: "0x13882",           // 80002 en hexadécimal (Polygon Amoy)
+    CHAIN_ID_DEC: 80002,
+    CHAIN_NAME: "Polygon Amoy",
+    RPC_URL: "https://ecosphere-rpc-proxy.eside7.workers.dev/amoy", // ton Worker Cloudflare
+    EXPLORER_URL: "https://amoy.polygonscan.com",
+    TOKEN_ADDRESS: "0x118783bb34D3269F28Cf6320aE95fD4e2a9186C6",   // EcoSphereToken
+    NFT_ADDRESS: "0x5F8BEF04E62b3af545E7dA64b08478F8Ba8b03f4",     // EcoSphereNFT — à remplir après déploiement (deploy-nft.js)
+  };
+
+  const TOKEN_ABI = [
+    "function balanceOf(address) view returns (uint256)",
+    "function decimals() view returns (uint8)",
+    "function stake(uint256 amount)",
+    "function unstake(uint256 amount)",
+    "function pendingReward(address user) view returns (uint256)",
+    "function stakes(address) view returns (uint256 amount, uint256 since, uint256 rewardDebt)",
+    "function rewardRateBps() view returns (uint256)",
+  ];
+
+  const NFT_ABI = [
+    "function mintEcoArt(string metadataURI) payable returns (uint256)",
+    "function MINT_PRICE() view returns (uint256)",
+    "function creatorShareBps() view returns (uint256)",
+    "function totalMinted() view returns (uint256)",
+    "event EcoArtMinted(uint256 indexed tokenId, address indexed creator, string metadataURI, uint256 amountToCreator, uint256 amountToTreasury)",
+  ];
+
+  let provider = null;
+  let signer = null;
+  let userAddress = null;
+  let stakeMode = "stake";
+  let refreshTimer = null;
+
+  document.getElementById("rail-explorer").href = CONFIG.EXPLORER_URL;
+
+  function switchView(view) {
+    document.getElementById("view-stake").style.display = view === "stake" ? "block" : "none";
+    document.getElementById("view-mint").style.display = view === "mint" ? "block" : "none";
+    document.getElementById("nav-stake").classList.toggle("active", view === "stake");
+    document.getElementById("nav-mint").classList.toggle("active", view === "mint");
+    document.getElementById("view-title").textContent = view === "stake" ? "Staking ECKO" : "Mint eco-art";
+    document.getElementById("view-sub").textContent = view === "stake"
+      ? "Stake tes ECKO pour percevoir des récompenses et participer à la gouvernance."
+      : "Chaque œuvre finance directement une campagne de reforestation.";
+  }
+
+  function setStakeMode(mode) {
+    stakeMode = mode;
+    document.getElementById("mode-stake").classList.toggle("active", mode === "stake");
+    document.getElementById("mode-unstake").classList.toggle("active", mode === "unstake");
+    document.getElementById("stake-action-btn").textContent = mode === "stake" ? "Staker mes ECKO" : "Retirer mes ECKO";
+  }
+
+  function showMsg(id, text, type) {
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.className = "msg show " + type;
+  }
+  function hideMsg(id) {
+    document.getElementById(id).className = "msg";
+  }
+
+  async function connectWallet() {
+    if (!window.ethereum) {
+      showMsg("stake-msg", "Aucun wallet détecté. Installe MetaMask pour continuer.", "error");
+      return;
+    }
+    try {
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      userAddress = accounts[0];
+
+      await ensureCorrectNetwork();
+
+      provider = new ethers.BrowserProvider(window.ethereum);
+      signer = await provider.getSigner();
+
+      document.getElementById("connect-btn").textContent = userAddress.slice(0, 6) + "…" + userAddress.slice(-4);
+      document.getElementById("connect-btn").disabled = true;
+      document.getElementById("network-pill").textContent = CONFIG.CHAIN_NAME;
+      document.getElementById("network-pill").classList.remove("warn");
+
+      await refreshAll();
+      if (refreshTimer) clearInterval(refreshTimer);
+      refreshTimer = setInterval(refreshAll, 15000);
+
+      window.ethereum.on("accountsChanged", () => window.location.reload());
+      window.ethereum.on("chainChanged", () => window.location.reload());
+    } catch (err) {
+      showMsg("stake-msg", "Connexion refusée ou échouée.", "error");
+    }
+  }
+
+  async function ensureCorrectNetwork() {
+    const currentChainId = await window.ethereum.request({ method: "eth_chainId" });
+    if (currentChainId === CONFIG.CHAIN_ID_HEX) return;
+
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: CONFIG.CHAIN_ID_HEX }],
+      });
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [{
+            chainId: CONFIG.CHAIN_ID_HEX,
+            chainName: CONFIG.CHAIN_NAME,
+            nativeCurrency: { name: "POL", symbol: "POL", decimals: 18 },
+            rpcUrls: [CONFIG.RPC_URL],
+            blockExplorerUrls: [CONFIG.EXPLORER_URL],
+          }],
+        });
+      } else {
+        throw switchError;
+      }
+    }
+  }
+
+  function fmt(bigNumValue, decimals) {
+    const n = parseFloat(ethers.formatUnits(bigNumValue, decimals || 18));
+    return n.toLocaleString("fr-FR", { maximumFractionDigits: 4 });
+  }
+
+  async function refreshAll() {
+    if (!signer || !userAddress) return;
+    try {
+      const token = new ethers.Contract(CONFIG.TOKEN_ADDRESS, TOKEN_ABI, provider);
+      const decimals = await token.decimals();
+
+      const balance = await token.balanceOf(userAddress);
+      document.getElementById("eck-balance").textContent = fmt(balance, decimals);
+
+      const stakeInfo = await token.stakes(userAddress);
+      const pending = await token.pendingReward(userAddress);
+      const rateBps = await token.rewardRateBps();
+
+      document.getElementById("staked-amount").textContent = fmt(stakeInfo.amount, decimals) + " ECKO";
+      document.getElementById("pending-reward").textContent = fmt(pending, decimals) + " ECKO";
+      document.getElementById("apy-rate").textContent = (Number(rateBps) / 100).toFixed(1) + "%";
+
+      const stakedNum = parseFloat(ethers.formatUnits(stakeInfo.amount, decimals));
+      const rewardNum = parseFloat(ethers.formatUnits(pending, decimals));
+      const total = stakedNum + rewardNum;
+      document.getElementById("rings-total").textContent = total.toLocaleString("fr-FR", { maximumFractionDigits: 2 });
+
+      const principalCirc = 2 * Math.PI * 95;
+      const rewardCirc = 2 * Math.PI * 72;
+      const refBase = Math.max(stakedNum, 1);
+      const principalFrac = stakedNum > 0 ? 1 : 0;
+      const rewardFrac = stakedNum > 0 ? Math.min(rewardNum / refBase, 1) : 0;
+      document.getElementById("ring-principal").setAttribute("stroke-dasharray",
+        (principalFrac * principalCirc) + " " + principalCirc);
+      document.getElementById("ring-reward").setAttribute("stroke-dasharray",
+        (rewardFrac * rewardCirc) + " " + rewardCirc);
+
+      if (CONFIG.NFT_ADDRESS !== "0x0000000000000000000000000000000000000000") {
+        const nft = new ethers.Contract(CONFIG.NFT_ADDRESS, NFT_ABI, provider);
+        const price = await nft.MINT_PRICE();
+        const creatorShareBps = await nft.creatorShareBps();
+        const totalMinted = await nft.totalMinted();
+
+        document.getElementById("mint-price").textContent = ethers.formatEther(price);
+        document.getElementById("creator-share").textContent = (Number(creatorShareBps) / 100).toFixed(0) + "%";
+        document.getElementById("treasury-share").textContent = (100 - Number(creatorShareBps) / 100).toFixed(0) + "%";
+        document.getElementById("total-minted").textContent = totalMinted.toString();
+      }
+    } catch (err) {
+      console.error("Erreur de rafraîchissement :", err);
+    }
+  }
+
+  async function doStakeAction() {
+    if (!signer) { showMsg("stake-msg", "Connecte ton wallet d'abord.", "error"); return; }
+
+    const amountStr = document.getElementById("stake-amount").value.trim();
+    if (!amountStr || isNaN(amountStr) || parseFloat(amountStr) <= 0) {
+      showMsg("stake-msg", "Entre un montant valide.", "error");
+      return;
+    }
+
+    const btn = document.getElementById("stake-action-btn");
+    btn.disabled = true;
+    hideMsg("stake-msg");
+
+    try {
+      const token = new ethers.Contract(CONFIG.TOKEN_ADDRESS, TOKEN_ABI, signer);
+      const decimals = await token.decimals();
+      const amount = ethers.parseUnits(amountStr, decimals);
+
+      showMsg("stake-msg", "Transaction envoyée, en attente de confirmation…", "pending");
+
+      const tx = stakeMode === "stake" ? await token.stake(amount) : await token.unstake(amount);
+      await tx.wait();
+
+      showMsg("stake-msg", stakeMode === "stake" ? "Stake confirmé." : "Retrait confirmé.", "info");
+      document.getElementById("stake-amount").value = "";
+      await refreshAll();
+    } catch (err) {
+      const reason = err?.reason || err?.shortMessage || "La transaction a échoué.";
+      showMsg("stake-msg", reason, "error");
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  async function doMint() {
+    if (!signer) { showMsg("mint-msg", "Connecte ton wallet d'abord.", "error"); return; }
+    if (CONFIG.NFT_ADDRESS === "0x0000000000000000000000000000000000000000") {
+      showMsg("mint-msg", "Contrat NFT pas encore configuré (voir CONFIG.NFT_ADDRESS).", "error");
+      return;
+    }
+
+    const title = document.getElementById("art-title").value.trim();
+    const desc = document.getElementById("art-desc").value.trim();
+    const image = document.getElementById("art-image").value.trim();
+
+    if (!title || !image) {
+      showMsg("mint-msg", "Le titre et l'image sont obligatoires.", "error");
+      return;
+    }
+
+    const btn = document.getElementById("mint-btn");
+    btn.disabled = true;
+    hideMsg("mint-msg");
+
+    try {
+      const nft = new ethers.Contract(CONFIG.NFT_ADDRESS, NFT_ABI, signer);
+      const price = await nft.MINT_PRICE();
+
+      const metadata = { name: title, description: desc, image: image };
+      const metadataURI = "data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(metadata))));
+
+      showMsg("mint-msg", "Transaction envoyée, en attente de confirmation…", "pending");
+
+      const tx = await nft.mintEcoArt(metadataURI, { value: price });
+      await tx.wait();
+
+      showMsg("mint-msg", "Œuvre mintée avec succès.", "info");
+      addGalleryTile(title, image);
+      document.getElementById("art-title").value = "";
+      document.getElementById("art-desc").value = "";
+      document.getElementById("art-image").value = "";
+      await refreshAll();
+    } catch (err) {
+      const reason = err?.reason || err?.shortMessage || "Le mint a échoué.";
+      showMsg("mint-msg", reason, "error");
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function addGalleryTile(title, imageUrl) {
+    document.getElementById("gallery-empty").style.display = "none";
+    const tile = document.createElement("div");
+    tile.className = "art-tile";
+    tile.style.backgroundImage = "url(" + imageUrl + ")";
+    tile.style.backgroundSize = "cover";
+    tile.style.backgroundPosition = "center";
+    tile.innerHTML = "<span>" + title.slice(0, 18) + "</span>";
+    document.getElementById("gallery").prepend(tile);
+  }
+</script>
+
+</body>
+</html>
